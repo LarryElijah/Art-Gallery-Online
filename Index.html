@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Larry's Art Gallery — a premium digital exhibition of original artwork inspired by nature, culture, faith and creative expression.">
+<meta name="theme-color" content="#07090d">
+<meta name="color-scheme" content="dark light">
+<title>Larry's Art Gallery | Complete Digital Exhibition</title>
+<style>
+:root{
+  --bg:#07090d;--panel:#10141c;--panel2:#151b25;--text:#f5f2eb;--muted:#abb2bf;
+  --line:rgba(255,255,255,.11);--gold:#e9c46a;--gold2:#f5d98e;
+  --shadow:0 30px 90px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;overflow-x:hidden}
+body.locked{overflow:hidden}
+button{font:inherit}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--gold);color:#111}
+.progress{position:fixed;top:0;left:0;width:0;height:3px;background:var(--gold);z-index:9999}
+header{
+  position:fixed;top:0;left:0;width:100%;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:17px 5vw;background:rgba(7,9,13,.68);backdrop-filter:blur(18px);
+  border-bottom:1px solid transparent;transition:.3s
+}
+header.scrolled{background:rgba(7,9,13,.94);border-bottom-color:var(--line)}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo-img{height:40px;width:40px;object-fit:cover;border-radius:50%;border:1px solid var(--gold)}
+.logo-text{font-family:Georgia,serif;font-size:1.15rem;font-weight:600;color:var(--text);letter-spacing:-0.5px}
+nav{display:flex;gap:25px;font-size:12px;text-transform:uppercase;letter-spacing:1.5px}
+nav a{color:#d8dbe2;transition:.2s}nav a:hover{color:var(--gold)}
+.menu{display:none;background:none;border:1px solid var(--line);color:#fff;padding:8px 11px;border-radius:8px}
+
+.hero{
+  min-height:100vh;padding:125px 7vw 80px;display:grid;grid-template-columns:1.1fr .9fr;
+  gap:55px;align-items:center;position:relative;overflow:hidden
+}
+.hero::before{content:"";position:absolute;width:700px;height:700px;right:-230px;top:40px;
+  background:radial-gradient(circle,rgba(233,196,106,.17),transparent 68%);pointer-events:none}
+.kicker{color:var(--gold);font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:800}
+.hero h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(4rem,9vw,9rem);line-height:.86;letter-spacing:-7px;margin:22px 0 28px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-copy{max-width:670px;color:var(--muted);font-size:18px;line-height:1.8}
+.hero-actions{display:flex;gap:10px;margin-top:32px;flex-wrap:wrap}
+.btn{padding:13px 20px;border-radius:999px;border:1px solid var(--line);cursor:pointer;transition:.25s}
+.btn.primary{background:var(--gold);color:#111;border-color:var(--gold);font-weight:800}
+.btn.secondary{background:transparent;color:#fff}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.hero-art{position:relative;min-height:540px;display:flex;align-items:center;justify-content:center}
+.hero-frame{width:min(430px,82vw);padding:12px;background:#111;border:1px solid var(--line);transform:rotate(3deg);box-shadow:var(--shadow)}
+.hero-frame img{display:block;width:100%;height:540px;object-fit:cover}
+.hero-tag{position:absolute;bottom:30px;left:0;background:rgba(16,20,28,.9);border:1px solid var(--line);padding:14px 18px;backdrop-filter:blur(12px)}
+
+section{padding:105px 7vw}
+.section-head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:38px}
+.section-head h2{font-family:Georgia,serif;font-size:clamp(2.7rem,5vw,5rem);font-weight:400;margin:8px 0 0;letter-spacing:-3px}
+.section-head p{color:var(--muted);max-width:510px;line-height:1.7}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.filter{border:1px solid var(--line);background:transparent;color:#bbb;padding:9px 15px;border-radius:999px;cursor:pointer}
+.filter.active,.filter:hover{background:var(--gold);color:#111;border-color:var(--gold)}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.art-card{background:var(--panel);border:1px solid var(--line);overflow:hidden;transition:.4s}
+.art-card:hover{transform:translateY(-8px);border-color:rgba(233,196,106,.45);box-shadow:var(--shadow)}
+.art-image-wrap{position:relative;overflow:hidden;background:#090b0f}
+.art-image-wrap img{display:block;width:100%;height:430px;object-fit:cover;transition:.6s}
+.art-card:hover .art-image-wrap img{transform:scale(1.04)}
+.art-number{position:absolute;top:14px;left:14px;background:rgba(0,0,0,.65);padding:6px 9px;font-size:11px;letter-spacing:1px}
+.art-info{padding:23px}
+.eyebrow{color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase}
+.art-info h3{font-family:Georgia,serif;font-size:27px;font-weight:400;margin:10px 0}
+.art-info p{color:var(--muted);line-height:1.7;font-size:14px;min-height:80px}
+.view-btn{background:none;border:0;border-bottom:1px solid var(--gold);color:var(--gold);padding:0 0 5px;cursor:pointer}
+
+.about{background:var(--panel);display:grid;grid-template-columns:.8fr 1.2fr;gap:80px;align-items:center}
+.about h2{font-family:Georgia,serif;font-weight:400;font-size:clamp(3rem,6vw,6rem);line-height:.95;margin:0}
+.about p{color:var(--muted);line-height:1.9;font-size:17px}
+.quote{border-left:2px solid var(--gold);padding-left:25px;font-family:Georgia,serif;font-size:28px;line-height:1.4;margin-top:35px}
+
+.classic{background:#090c12}
+.classic-stage{height:78vh;min-height:560px;position:relative;overflow:hidden;border:1px solid var(--line);background:#000}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transform:translateX(50px);transition:.75s}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide-inner{height:100%;overflow:auto;padding:55px 8vw;display:grid;grid-template-columns:1fr 1fr;gap:45px;align-items:center;background:linear-gradient(135deg,rgba(10,15,24,.9),rgba(10,10,10,.55))}
+.slide-inner img{width:100%;height:min(62vh,540px);object-fit:contain;background:#050608;border:1px solid var(--line)}
+.slide-inner h3{font-family:Georgia,serif;font-weight:400;font-size:clamp(2.5rem,5vw,5rem);margin:12px 0}
+.slide-inner p{color:var(--muted);line-height:1.8;font-size:16px}
+.slide-count{color:var(--gold);font-size:12px;letter-spacing:2px}
+.slide-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;width:50px;height:50px;border-radius:50%;border:1px solid var(--line);background:rgba(0,0,0,.65);color:#fff;cursor:pointer;font-size:22px}
+.slide-arrow:hover{background:var(--gold);color:#111}
+.slide-arrow.left{left:15px}.slide-arrow.right{right:15px}
+.slide-pause{position:absolute;right:18px;top:18px;z-index:20;padding:99px 15px;border:1px solid var(--line);border-radius:999px;background:rgba(0,0,0,.65);color:#fff;cursor:pointer}
+
+.music{
+  position:fixed;right:22px;bottom:22px;z-index:900;width:320px;background:rgba(16,20,28,.94);
+  border:1px solid var(--line);backdrop-filter:blur(18px);padding:15px;border-radius:16px;box-shadow:var(--shadow)
+}
+.music-top{display:flex;justify-content:space-between;gap:10px}
+.music-title{font-size:11px;font-weight:800;letter-spacing:1px}
+.music-status{color:var(--gold);font-size:10px}
+.music-controls{display:flex;gap:6px;margin-top:12px}
+.music-controls button{flex:1;background:#202632;border:1px solid var(--line);color:#fff;border-radius:8px;padding:9px;cursor:pointer}
+.music-controls button:hover{background:var(--gold);color:#111}
+
+.modal{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;padding:30px}
+.modal.open{display:flex}
+.modal-box{max-width:1100px;width:100%;background:var(--panel);border:1px solid var(--line);display:grid;grid-template-columns:1.1fr .9fr;max-height:90vh}
+.modal-box img{width:100%;height:100%;max-height:80vh;object-fit:contain;background:#050608}
+.modal-info{padding:40px;overflow:auto}
+.modal-info h2{font-family:Georgia,serif;font-weight:400;font-size:42px}
+.modal-info p{color:var(--muted);line-height:1.8}
+.close{position:absolute;top:18px;right:25px;background:none;border:0;color:#fff;font-size:35px;cursor:pointer}
+
+.reveal{opacity:0;transform:translateY(25px);transition:.7s ease}
+.reveal.show{opacity:1;transform:none}
+footer{padding:40px 7vw;border-top:1px solid var(--line);display:flex;justify-content:space-between;color:#777;font-size:12px}
+
+@media(max-width:950px){
+  nav{display:none}.menu{display:block}
+  .hero{grid-template-columns:1fr}
+  .gallery{grid-template-columns:repeat(2,1fr)}
+  .about{grid-template-columns:1fr;gap:35px}
+  .slide-inner{grid-template-columns:1fr;overflow:auto;padding:60px 70px}
+  .slide-inner img{height:38vh}
+  .modal-box{grid-template-columns:1fr;overflow:auto}
+  .modal-box img{height:45vh}
+}
+@media(max-width:600px){
+  section{padding:78px 20px}
+  .hero{padding:115px 20px 70px}
+  .hero h1{font-size:4.1rem;letter-spacing:-4px}
+  .hero-art{min-height:400px}
+  .hero-frame img{height:430px}
+  .gallery{grid-template-columns:1fr}
+  .section-head{display:block}
+  .music{left:12px;right:12px;bottom:12px;width:auto}
+  .classic-stage{min-height:650px}
+  .slide-inner{padding:65px 52px}
+  .slide-inner img{height:32vh}
+  footer{display:block;line-height:2}
+  .logo-text{font-size:1rem}
+}
+
+.hero{isolation:isolate}
+.hero-bg-slideshow{position:absolute;inset:0;z-index:-3;overflow:hidden}
+.hero-bg-slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity 1.2s ease}
+.hero-bg-slide.active{opacity:1;visibility:visible}
+.hero-bg-slide img{width:100%;height:100%;object-fit:cover;filter:brightness(.34) saturate(.82);transform:scale(1.04);transition:transform 8s ease}
+.hero-bg-slide.active img{transform:scale(1)}
+.hero::after{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(3,5,8,.72),rgba(3,5,8,.28),rgba(3,5,8,.72))}
+.hero-copy,.hero h1,.hero .kicker,.hero-actions{position:relative}
+.hero-art{position:relative;z-index:2}
+.hero-slide-control{
+ position:absolute;top:50%;transform:translateY(-50%);z-index:8;
+ width:58px;height:58px;border-radius:50%;border:1px solid rgba(255,255,255,.16);
+ background:rgba(0,0,0,.58);color:#fff;font-size:27px;cursor:pointer;
+ backdrop-filter:blur(10px);transition:.25s
+}
+.hero-slide-control:hover{background:var(--gold);color:#111;transform:translateY(-50%) scale(1.08)}
+.hero-slide-control.left{left:18px}.hero-slide-control.right{right:18px}
+.hero-slide-pause{
+ position:absolute;right:20px;top:90px;z-index:8;padding:10px 17px;border-radius:999px;
+ border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.58);color:#fff;
+ cursor:pointer;backdrop-filter:blur(10px);font-weight:700
+}
+.hero-slide-pause:hover{background:#fff;color:#111}
+.hero-dots{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:8;display:flex;gap:7px}
+.hero-dot{width:8px;height:8px;border:0;border-radius:50%;padding:0;background:rgba(255,255,255,.4);cursor:pointer}
+.hero-dot.active{background:var(--gold);transform:scale(1.35)}
+.hero-counter{position:absolute;bottom:19px;right:25px;z-index:8;color:#ddd;font-size:11px;letter-spacing:2px}
+.hero .hero-frame{border-color:rgba(233,196,106,.7)}
+@media(max-width:600px){
+ .hero-slide-control{width:43px;height:43px;font-size:19px}
+ .hero-slide-control.left{left:7px}.hero-slide-control.right{right:7px}
+ .hero-slide-pause{top:74px;right:10px;font-size:11px;padding:8px 12px}
+ .hero-counter{right:12px}
+}
+
+:root{
+  --accent:#e9c46a;
+  --accent-rgb:233,196,106;
+  --card-radius:18px;
+}
+body{background:
+  radial-gradient(circle at 15% 10%,rgba(var(--accent-rgb),.055),transparent 25%),
+  radial-gradient(circle at 90% 70%,rgba(90,120,255,.035),transparent 30%),
+  var(--bg);}
+body.light{
+  --bg:#f5f2ea;--panel:#fffdf8;--panel2:#eee9dd;--text:#171717;--muted:#5e625f;
+  --line:rgba(0,0,0,.12);--gold:#9a6d10;--gold2:#b8871b;
+}
+body.light header{background:rgba(245,242,234,.72)}
+body.light header.scrolled{background:rgba(245,242,234,.95)}
+body.light .btn.secondary{color:var(--text)}
+body.light .music{background:rgba(255,253,248,.94);color:var(--text)}
+body.light .music-controls button{background:#eee9dd;color:var(--text)}
+body.light .modal{background:rgba(20,20,20,.72)}
+body.light .classic{background:#e9e5db}
+body.light .classic-stage{background:#ddd8ca}
+body.light .slide-inner{background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(245,242,234,.72))}
+body.light .slide-arrow,.light .slide-pause{color:var(--text)}
+
+*{scrollbar-width:thin;scrollbar-color:var(--gold) transparent}
+:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+::selection{background:var(--gold);color:#111}
+.cursor-glow{position:fixed;pointer-events:none;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(var(--accent-rgb),.075),transparent 65%);
+  transform:translate(-50%,-50%);z-index:0;mix-blend-mode:screen}
+.skip-link{position:fixed;left:15px;top:-60px;z-index:99999;background:var(--gold);color:#111;padding:10px 16px;border-radius:0 0 10px 10px;font-weight:800}
+.skip-link:focus{top:0}
+.header-tools{display:flex;align-items:center;gap:8px}
+.icon-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer}
+.icon-btn:hover{background:var(--gold);color:#111}
+.mobile-nav{display:none}
+.mobile-nav.open{display:flex;position:fixed;top:70px;left:15px;right:15px;z-index:999;background:rgba(16,20,28,.97);
+  border:1px solid var(--line);border-radius:16px;padding:16px;flex-direction:column;gap:4px;box-shadow:var(--shadow)}
+.mobile-nav a{padding:12px;border-radius:10px}
+.mobile-nav a:hover{background:rgba(233,196,106,.12);color:var(--gold)}
+.hero-copy strong{color:var(--text)}
+.hero-stats{display:flex;gap:30px;margin-top:34px;flex-wrap:wrap}
+.stat strong{display:block;font-family:Georgia,serif;font-size:28px;color:var(--text)}
+.stat span{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted)}
+.hero-frame{border-radius:4px;transition:.45s}
+.hero-frame:hover{transform:rotate(-1deg) scale(1.015)}
+.art-card{border-radius:var(--card-radius);box-shadow:0 12px 35px rgba(0,0,0,.12)}
+.art-image-wrap img{height:430px}
+.art-card[hidden]{display:none!important}
+.collection-tools{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:20px}
+.search-box{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:0 15px;min-width:260px}
+.search-box input{border:0;outline:0;background:transparent;color:var(--text);padding:11px 4px;width:100%}
+.collection-count{font-size:11px;color:var(--muted);letter-spacing:1px}
+.art-card:hover .art-number{background:var(--gold);color:#111}
+.view-btn{font-weight:700}
+.progress{box-shadow:0 0 12px rgba(var(--accent-rgb),.5)}
+.classic-stage{border-radius:20px;box-shadow:var(--shadow)}
+.slide-inner img{border-radius:12px}
+.slideshow-meta{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-top:14px;color:#777;font-size:12px}
+.story-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:45px}
+.story-card{border:1px solid var(--line);background:rgba(255,255,255,.025);padding:24px;border-radius:16px}
+.story-card h3{font-family:Georgia,serif;font-weight:400;font-size:25px;margin:8px 0}
+.story-card p{color:var(--muted);line-height:1.7;font-size:14px}
+.modal-box{border-radius:20px;overflow:hidden;box-shadow:0 35px 120px rgba(0,0,0,.55)}
+.modal-info{position:relative}
+.modal-nav{display:flex;gap:8px;margin-top:25px}
+.modal-nav button{border:1px solid var(--line);background:transparent;color:var(--text);padding:99px 14px;border-radius:999px;cursor:pointer}
+.modal-nav button:hover{background:var(--gold);color:#111}
+.music{border-radius:18px}
+.music-progress{height:3px;background:rgba(255,255,255,.12);border-radius:5px;margin-top:12px;overflow:hidden}
+.music-progress span{display:block;height:100%;width:0;background:var(--gold);transition:width .15s linear}
+.music-volume{display:flex;align-items:center;gap:8px;margin-top:9px;font-size:11px;color:var(--muted)}
+.music-volume input{width:100%}
+footer{flex-wrap:wrap;gap:15px}
+.back-top{position:fixed;right:22px;bottom:125px;width:42px;height:42px;border:1px solid var(--line);border-radius:50%;
+ background:rgba(16,20,28,.86);color:#fff;cursor:pointer;opacity:0;pointer-events:none;transition:.3s;z-index:800}
+.back-top.show{opacity:1;pointer-events:auto}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:#111;color:#fff;padding:11px 16px;border:1px solid var(--line);
+ border-radius:999px;opacity:0;pointer-events:none;transition:.3s;z-index:5000;font-size:12px}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:950px){
+  .header-tools{margin-left:auto;margin-right:8px}
+  .story-grid{grid-template-columns:1fr}
+  .mobile-nav{display:none}
+  .mobile-nav.open{display:flex}
+}
+@media(max-width:600px){
+  .hero-stats{gap:18px}
+  .stat strong{font-size:23px}
+  .search-box{width:100%;min-width:0}
+  .collection-tools{display:block}
+  .collection-count{display:block;margin-top:10px}
+  .back-top{right:15px;bottom:105px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="cursor-glow" id="cursorGlow"></div>
+<header id="header">
+  <a class="logo" href="#home" aria-label="Larry Art home">
+    <img src="IMG_20260629_140541.jpg" alt="Larry's Art Gallery Logo" class="logo-img">
+    <span class="logo-text">Larry's Art Gallery</span>
+  </a>
+  <nav aria-label="Main navigation"><a href="#home">Home</a><a href="#collection">Collection</a><a href="#classic">Slideshow</a><a href="#story">Story</a></nav>
+  <div class="header-tools">
+    <button class="icon-btn" id="themeBtn" aria-label="Toggle light and dark theme" title="Toggle theme">☼</button>
+    <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="mobileNav">Menu</button>
+  </div>
+</header>
+<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+  <a href="#home">Home</a><a href="#collection">Collection</a><a href="#classic">Slideshow</a><a href="#story">Story</a>
+</nav>
+
+<main id="main">
+
+<section class="hero" id="home">
+  <div class="hero-bg-slideshow" id="heroBgSlideshow">
+    <div class="hero-bg-slide"><img src="photo.png" alt="Featured artwork"></div>
+    <div class="hero-bg-slide"><img src="Image_20260816_151313_663.jpeg" alt=""></div>
+    <div class="hero-bg-slide"><img src="IMG_20260806_000543_924.jpg" alt=""></div>
+    <div class="hero-bg-slide"><img src="20260425_142502.jpeg" alt=""></div>
+    <div class="hero-bg-slide"><img src="IMG_0081.jpeg" alt=""></div>
+    <div class="hero-bg-slide"><img src="Image_20260816_151313_525.jpeg" alt=""></div>
+    <div class="hero-bg-slide"><img src="IMG_0080.jpeg" alt=""></div>
+    <div class="hero-bg-slide"><img src="IMG_20260806_082205_792.jpg" alt=""></div>
+    <div class="hero-bg-slide"><img src="Image_20260816_151313_359.jpeg" alt=""></div>
+    <div class="hero-bg-slide"><img src="Image_20260816_151312_847.jpeg" alt=""></div>
+    <div class="hero-bg-slide"><img src="Image_20260816_151313_482.jpeg" alt=""></div>
+    <div class="hero-bg-slide"><img src="Image_20260816_151313_402.jpeg" alt=""></div>
+  </div>
+  <button class="hero-slide-control left" id="heroPrev" aria-label="Previous featured slide">❮</button>
+  <button class="hero-slide-control right" id="heroNext" aria-label="Next featured slide">❯</button>
+  <button class="hero-slide-pause" id="heroPause" aria-label="Pause or resume featured slideshow">Pause Slides</button>
+  <div class="hero-dots" id="heroDots"></div>
+  <div class="hero-counter" id="heroCounter">ARTWORK 01 / 12</div>
+
+  <div class="reveal">
+    <div class="kicker">Complete Digital Exhibition · 2026</div>
+    <h1>Art that<br>speaks <em>nature.</em></h1>
+    <p class="hero-copy">Welcome to Larry's Art Gallery — a digital exhibition where <strong>nature, culture, spirituality and personal expression</strong> meet on canvas.</p>
+    <div class="hero-stats" aria-label="Exhibition statistics">
+      <div class="stat"><strong>14</strong><span>Original works</span></div>
+      <div class="stat"><strong>8s</strong><span>Slide interval</span></div>
+      <div class="stat"><strong>2026</strong><span>Exhibition year</span></div>
+    </div>
+    <div class="hero-actions">
+      <a class="btn primary" href="#collection">Explore collection →</a>
+      <a class="btn secondary" href="#classic">Open slideshow</a>
+    </div>
+  </div>
+  <div class="hero-art reveal">
+    <div class="hero-frame"><img src="photo.png" alt="Featured artwork"></div>
+    <div class="hero-tag"><strong>FEATURED</strong><br><span style="color:#aaa">A visual journey through expression</span></div>
+  </div>
+</section>
+
+<section id="collection">
+  <div class="section-head reveal">
+    <div><div class="kicker">The collection</div><h2>Selected works</h2></div>
+    <p>Browse every original artwork, filter the collection, and open each piece in a full artwork viewer.</p>
+  </div>
+  <div class="filters reveal">
+    <button class="filter active" data-filter="all">All works</button>
+    <button class="filter" data-filter="nature">Nature &amp; depth</button>
+    <button class="filter" data-filter="expression">Expression</button>
+  </div>
+  <div class="collection-tools reveal">
+    <label class="search-box" aria-label="Search artworks">
+      <span>⌕</span><input id="artSearch" type="search" placeholder="Search artwork titles..." autocomplete="off">
+    </label>
+    <span class="collection-count" id="collectionCount">14 works shown</span>
+  </div>
+  <div class="gallery" id="gallery">
+<article class="art-card" data-category="expression">
+        <div class="art-image-wrap">
+          <img src="Image_20260816_151313_663.jpeg" alt="Moonlit Serenity" loading="lazy">
+          <span class="art-number">01</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>Moonlit Serenity</h3>
+          <p>A tranquil night scene where moonlight falls across a quiet riverside. The silhouetted trees, calm water and soft shoreline create a peaceful atmosphere, capturing the stillness that comes when nature and the human spirit exist in harmony.</p>
+          <button class="view-btn" type="button" data-title="Moonlit Serenity" data-desc="A tranquil night scene where moonlight falls across a quiet riverside. The silhouetted trees, calm water and soft shoreline create a peaceful atmosphere, capturing the stillness that comes when nature and the human spirit exist in harmony." data-img="Image_20260816_151313_663.jpeg">View artwork →</button>
+        </div>
+      </article>
+<article class="art-card" data-category="expression">
+        <div class="art-image-wrap">
+          <img src="Image_20260816_151313_402.jpeg" alt="The Sacred Totem" loading="lazy">
+          <span class="art-number">02</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>The Sacred Totem</h3>
+          <p>A striking, totem-like expression filled with symbolic motifs, vibrant patterns, and layered text. The artwork explores themes of lineage, spiritual strength, and cultural identity.</p>
+          <button class="view-btn" type="button" data-title="The Sacred Totem" data-desc="A striking, totem-like expression filled with symbolic motifs, vibrant patterns, and layered text. The artwork explores themes of lineage, spiritual strength, and cultural identity." data-img="Image_20260816_151313_402.jpeg">View artwork →</button>
+        </div>
+      </article>
+<article class="art-card" data-category="expression">
+        <div class="art-image-wrap">
+          <img src="Image_20260816_151313_525.jpeg" alt="Baba Oluwa" loading="lazy">
+          <span class="art-number">03</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>Baba Oluwa</h3>
+          <p>A majestic celebration of divine guardianship, weaving interwoven imagery to reflect humanity's reliance on supreme grace and providence.</p>
+          <button class="view-btn" type="button" data-title="Baba Oluwa" data-desc="A majestic celebration of divine guardianship, weaving interwoven imagery to reflect humanity's reliance on supreme grace and providence." data-img="Image_20260816_151313_525.jpeg">View artwork →</button>
+        </div>
+      </article>
+<article class="art-card" data-category="nature">
+        <div class="art-image-wrap">
+          <img src=".jpeg" alt="Celestial Mountain Peak" loading="lazy">
+          <span class="art-number">04</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>Celestial Mountain Peak</h3>
+          <p>A vivid landscape depicting vibrant, fiery hues streaming above snow-draped mountain peaks[cite: 1]. Dense evergreen forests frame a reflective river flowing into the foreground, capturing the dramatic energy and quiet majesty of the wilderness[cite: 1].</p>
+          <button class="view-btn" type="button" data-title="Celestial Mountain Peak" data-desc="A vivid landscape depicting vibrant, fiery hues streaming above snow-draped mountain peaks. Dense evergreen forests frame a reflective river flowing into the foreground, capturing the dramatic energy and quiet majesty of the wilderness." data-img=".jpeg">View artwork →</button>
+        </div>
+      </article>
+<article class="art-card" data-category="nature">
+        <div class="art-image-wrap">
+          <img src="IMG_0081.jpeg" alt="In The Deep" loading="lazy">
+          <span class="art-number">05</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>In The Deep</h3>
+          <p>A poetic dive into the unseen depths of nature and mind, unearthing hidden treasures and mysteries lurking beneath the surface.</p>
+          <button class="view-btn" type="button" data-title="In The Deep" data-desc="A poetic dive into the unseen depths of nature and mind, unearthing hidden treasures and mysteries lurking beneath the surface." data-img="IMG_0081.jpeg">View artwork →</button>
+        </div>
+      </article>
+<article class="art-card" data-category="nature">
+        <div class="art-image-wrap">
+          <img src="IMG_20260806_000543_924.jpg" alt="The African Breeze" loading="lazy">
+          <span class="art-number">06</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>The African Breeze: The Over SaaBi</h3>
+          <p>Invigorating tones evoke the refreshing, soul-soothing winds across continental landscapes, offering a comforting respite from daily anxieties.</p>
+          <button class="view-btn" type="button" data-title="The African Breeze: The Over SaaBi" data-desc="Invigorating tones evoke the refreshing, soul-soothing winds across continental landscapes, offering a comforting respite from daily anxieties." data-img="IMG_20260806_000543_924.jpg">View artwork →</button>
+        </div>
+      </article>
+<article class="art-card" data-category="expression">
+        <div class="art-image-wrap">
+          <img src="Image_20260816_151313_482.jpeg" alt="Hope" loading="lazy">
+          <span class="art-number">07</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>Hope</h3>
+          <p>A luminous portrayal of optimism, reminding us that steady light always breaks through dark horizons to inspire creative rebirth.</p>
+          <button class="view-btn" type="button" data-title="Hope" data-desc="A luminous portrayal of optimism, reminding us that steady light always breaks through dark horizons to inspire creative rebirth." data-img="Image_20260816_151313_482.jpeg">View artwork →</button>
+        </div>
+      </article>
+<article class="art-card" data-category="nature">
+        <div class="art-image-wrap">
+          <img src="IMG_20260806_082205_792.jpg" alt="Where Nature Meets Beauty" loading="lazy">
+          <span class="art-number">08</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>Where Nature Meets Beauty</h3>
+          <p>A rich composition capturing organic splendor, illustrating the seamless union between raw earthly elements and refined aesthetics.</p>
+          <button class="view-btn" type="button" data-title="Where Nature Meets Beauty" data-desc="A rich composition capturing organic splendor, illustrating the seamless union between raw earthly elements and refined aesthetics." data-img="IMG_20260806_082205_792.jpg">View artwork →</button>
+        </div>
+      </article>
+<article class="art-card" data-category="nature">
+        <div class="art-image-wrap">
+          <img src="Image_20260816_151312_847.jpeg" alt="The Red Valley" loading="lazy">
+          <span class="art-number">09</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>The Red Valley: Ancestral Homes</h3>
+          <p>An evocative retrospective honoring traditional heritage, displaying timeless cultural roots and peaceful community living.</p>
+          <button class="view-btn" type="button" data-title="The Red Valley: Ancestral Homes" data-desc="An evocative retrospective honoring traditional heritage, displaying timeless cultural roots and peaceful community living." data-img="Image_20260816_151312_847.jpeg">View artwork →</button>
+        </div>
+      </article>
+<article class="art-card" data-category="nature">
+        <div class="art-image-wrap">
+          <img src="IMG_0084.jpeg" alt="Growth in Expression" loading="lazy">
+          <span class="art-number">10</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>Growth in Expression</h3>
+          <p>An exploration of how caring for plants can inspire creative expression. The artwork reflects the connection between cultivation, patience and artistic growth, showing how observing nature can become a source of ideas, colour and personal expression.</p>
+          <button class="view-btn" type="button" data-title="Growth in Expression" data-desc="An exploration of how caring for plants can inspire creative expression. The artwork reflects the connection between cultivation, patience and artistic growth, showing how observing nature can become a source of ideas, colour and personal expression." data-img="IMG_0084.jpeg">View artwork →</button>
+        </div>
+      </article>
+<article class="art-card" data-category="nature">
+        <div class="art-image-wrap">
+          <img src="20260425_142502.jpeg" alt="The Deep Rooted" loading="lazy">
+          <span class="art-number">11</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>The Deep Rooted</h3>
+          <p>An ode to ancestral foundations and inner fortitude, illustrating how unshakeable roots nurture vibrant new growth through all seasons.</p>
+          <button class="view-btn" type="button" data-title="The Deep Rooted" data-desc="An ode to ancestral foundations and inner fortitude, illustrating how unshakeable roots nurture vibrant new growth through all seasons." data-img="20260425_142502.jpeg">View artwork →</button>
+        </div>
+      </article>
+<article class="art-card" data-category="nature">
+        <div class="art-image-wrap">
+          <img src="Image_20260816_151313_319.jpeg" alt="Nature in Expression" loading="lazy">
+          <span class="art-number">12</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>Nature in Expression</h3>
+          <p>A vibrant composition inspired by nature, combining flowing organic forms, potted plants and bold contrasting colours. The artwork explores the connection between natural growth and creative expression.</p>
+          <button class="view-btn" type="button" data-title="Nature in Expression" data-desc="A vibrant composition inspired by nature, combining flowing organic forms, potted plants and bold contrasting colours. The artwork explores the connection between natural growth and creative expression." data-img="Image_20260816_151313_319.jpeg">View artwork →</button>
+        </div>
+      </article>
+<article class="art-card" data-category="expression">
+        <div class="art-image-wrap">
+          <img src="IMG_0080.jpeg" alt="Red Horn" loading="lazy">
+          <span class="art-number">13</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>Red Horn: The World Up There</h3>
+          <p>A striking commentary on societal hierarchies versus natural harmony, depicting elevated perspectives free from envy and modern divide.</p>
+          <button class="view-btn" type="button" data-title="Red Horn: The World Up There" data-desc="A striking commentary on societal hierarchies versus natural harmony, depicting elevated perspectives free from envy and modern divide." data-img="IMG_0080.jpeg">View artwork →</button>
+        </div>
+      </article>
+<article class="art-card" data-category="expression">
+        <div class="art-image-wrap">
+          <img src="Image_20260816_151313_359.jpeg" alt="On God" loading="lazy">
+          <span class="art-number">14</span>
+        </div>
+        <div class="art-info">
+          <span class="eyebrow">Original Artwork</span>
+          <h3>ON God</h3>
+          <p>A profound expression of faith and ecological reverence, honoring the delicate balance between natural sanctuaries and divine creation.</p>
+          <button class="view-btn" type="button" data-title="ON God" data-desc="A profound expression of faith and ecological reverence, honoring the delicate balance between natural sanctuaries and divine creation." data-img="Image_20260816_151313_359.jpeg">View artwork →</button>
+        </div>
+      </article>
+      </div>
+
+<section class="classic" id="classic">
+  <div class="section-head reveal">
+    <div><div class="kicker">Original experience preserved</div><h2>Classic slideshow</h2></div>
+    <p>The original full-screen slideshow concept is kept here, upgraded with smoother transitions and an exact 8-second interval.</p>
+  </div>
+  <div class="classic-stage" id="classicStage">
+    <button class="slide-arrow left" id="slidePrev" aria-label="Previous slide">❮</button>
+    <button class="slide-arrow right" id="slideNext" aria-label="Next slide">❯</button>
+    <button class="slide-pause" id="slidePause">Pause slides</button>
+
+    <div class="slide active">
+      <div class="slide-inner">
+        <div>
+          <div class="slide-count">SLIDE 01 / 11</div>
+          <h3>Moonlit Serenity</h3>
+          <p>A tranquil night scene where moonlight falls across a quiet riverside. The silhouetted trees, calm water and soft shoreline create a peaceful atmosphere, capturing the stillness that comes when nature and the human spirit exist in harmony.</p>
+          <button class="btn primary view-from-slide" data-title="Moonlit Serenity" data-desc="A tranquil night scene where moonlight falls across a quiet riverside. The silhouetted trees, calm water and soft shoreline create a peaceful atmosphere, capturing the stillness that comes when nature and the human spirit exist in harmony." data-img="Image_20260816_151313_663.jpeg">View artwork</button>
+        </div>
+        <img src="Image_20260816_151313_663.jpeg" alt="Moonlit Serenity" loading="lazy">
+      </div>
+    </div>
+
+    <div class="slide ">
+      <div class="slide-inner">
+        <div>
+          <div class="slide-count">SLIDE 02 / 11</div>
+          <h3>The African Breeze: The Over SaaBi</h3>
+          <p>Invigorating tones evoke the refreshing, soul-soothing winds across continental landscapes, offering a comforting respite from daily anxieties.</p>
+          <button class="btn primary view-from-slide" data-title="The African Breeze: The Over SaaBi" data-desc="Invigorating tones evoke the refreshing, soul-soothing winds across continental landscapes, offering a comforting respite from daily anxieties." data-img="IMG_20260806_000543_924.jpg">View artwork</button>
+        </div>
+        <img src="IMG_20260806_000543_924.jpg" alt="The African Breeze" loading="lazy">
+      </div>
+    </div>
+
+    <div class="slide ">
+      <div class="slide-inner">
+        <div>
+          <div class="slide-count">SLIDE 03 / 11</div>
+          <h3>The Deep Rooted</h3>
+          <p>An ode to ancestral foundations and inner fortitude, illustrating how unshakeable roots nurture vibrant new growth through all seasons.</p>
+          <button class="btn primary view-from-slide" data-title="The Deep Rooted" data-desc="An ode to ancestral foundations and inner fortitude, illustrating how unshakeable roots nurture vibrant new growth through all seasons." data-img="20260425_142502.jpeg">View artwork</button>
+        </div>
+        <img src="20260425_142502.jpeg" alt="The Deep Rooted" loading="lazy">
+      </div>
+    </div>
+
+    <div class="slide ">
+      <div class="slide-inner">
+        <div>
+          <div class="slide-count">SLIDE 04 / 11</div>
+          <h3>In The Deep</h3>
+          <p>A poetic dive into the unseen depths of nature and mind, unearthing hidden treasures and mysteries lurking beneath the surface.</p>
+          <button class="btn primary view-from-slide" data-title="In The Deep" data-desc="A poetic dive into the unseen depths of nature and mind, unearthing hidden treasures and mysteries lurking beneath the surface." data-img="IMG_0081.jpeg">View artwork</button>
+        </div>
+        <img src="IMG_0081.jpeg" alt="In The Deep" loading="lazy">
+      </div>
+    </div>
+
+    <div class="slide ">
+      <div class="slide-inner">
+        <div>
+          <div class="slide-count">SLIDE 05 / 11</div>
+          <h3>Baba Oluwa</h3>
+          <p>A majestic celebration of divine guardianship, weaving interwoven imagery to reflect humanity's reliance on supreme grace and providence.</p>
+          <button class="btn primary view-from-slide" data-title="Baba Oluwa" data-desc="A majestic celebration of divine guardianship, weaving interwoven imagery to reflect humanity's reliance on supreme grace and providence." data-img="Image_20260816_151313_525.jpeg">View artwork</button>
+        </div>
+        <img src="Image_20260816_151313_525.jpeg" alt="Baba Oluwa" loading="lazy">
+      </div>
+    </div>
+
+    <div class="slide ">
+      <div class="slide-inner">
+        <div>
+          <div class="slide-count">SLIDE 06 / 11</div>
+          <h3>Red Horn: The World Up There</h3>
+          <p>A striking commentary on societal hierarchies versus natural harmony, depicting elevated perspectives free from envy and modern divide.</p>
+          <button class="btn primary view-from-slide" data-title="Red Horn: The World Up There" data-desc="A striking commentary on societal hierarchies versus natural harmony, depicting elevated perspectives free from envy and modern divide." data-img="IMG_0080.jpeg">View artwork</button>
+        </div>
+        <img src="IMG_0080.jpeg" alt="Red Horn" loading="lazy">
+      </div>
+    </div>
+
+    <div class="slide ">
+      <div class="slide-inner">
+        <div>
+          <div class="slide-count">SLIDE 07 / 11</div>
+          <h3>Where Nature Meets Beauty</h3>
+          <p>A rich composition capturing organic splendor, illustrating the seamless union between raw earthly elements and refined aesthetics.</p>
+          <button class="btn primary view-from-slide" data-title="Where Nature Meets Beauty" data-desc="A rich composition capturing organic splendor, illustrating the seamless union between raw earthly elements and refined aesthetics." data-img="IMG_20260806_082205_792.jpg">View artwork</button>
+        </div>
+        <img src="IMG_20260806_082205_792.jpg" alt="Where Nature Meets Beauty" loading="lazy">
+      </div>
+    </div>
+
+    <div class="slide ">
+      <div class="slide-inner">
+        <div>
+          <div class="slide-count">SLIDE 08 / 11</div>
+          <h3>ON God</h3>
+          <p>A profound expression of faith and ecological reverence, honoring the delicate balance between natural sanctuaries and divine creation.</p>
+          <button class="btn primary view-from-slide" data-title="ON God" data-desc="A profound expression of faith and ecological reverence, honoring the delicate balance between natural sanctuaries and divine creation." data-img="Image_20260816_151313_359.jpeg">View artwork</button>
+        </div>
+        <img src="Image_20260816_151313_359.jpeg" alt="On God" loading="lazy">
+      </div>
+    </div>
+
+    <div class="slide ">
+      <div class="slide-inner">
+        <div>
+          <div class="slide-count">SLIDE 09 / 11</div>
+          <h3>The Red Valley: Ancestral Homes</h3>
+          <p>An evocative retrospective honoring traditional heritage, displaying timeless cultural roots and peaceful community living.</p>
+          <button class="btn primary view-from-slide" data-title="The Red Valley: Ancestral Homes" data-desc="An evocative retrospective honoring traditional heritage, displaying timeless cultural roots and peaceful community living." data-img="Image_20260816_151312_847.jpeg">View artwork</button>
+        </div>
+        <img src="Image_20260816_151312_847.jpeg" alt="The Red Valley" loading="lazy">
+      </div>
+    </div>
+
+    <div class="slide ">
+      <div class="slide-inner">
+        <div>
+          <div class="slide-count">SLIDE 10 / 11</div>
+          <h3>Hope</h3>
+          <p>A luminous portrayal of optimism, reminding us that steady light always breaks through dark horizons to inspire creative rebirth.</p>
+          <button class="btn primary view-from-slide" data-title="Hope" data-desc="A luminous portrayal of optimism, reminding us that steady light always breaks through dark horizons to inspire creative rebirth." data-img="Image_20260816_151313_482.jpeg">View artwork</button>
+        </div>
+        <img src="Image_20260816_151313_482.jpeg" alt="Hope" loading="lazy">
+      </div>
+    </div>
+
+    <div class="slide ">
+      <div class="slide-inner">
+        <div>
+          <div class="slide-count">SLIDE 11 / 11</div>
+          <h3>The Sacred Totem</h3>
+          <p>A striking, totem-like expression filled with symbolic motifs, vibrant patterns, and layered text. The artwork explores themes of lineage, spiritual strength, and cultural identity.</p>
+          <button class="btn primary view-from-slide" data-title="The Sacred Totem" data-desc="A striking, totem-like expression filled with symbolic motifs, vibrant patterns, and layered text. The artwork explores themes of lineage, spiritual strength, and cultural identity." data-img="Image_20260816_151313_402.jpeg">View artwork</button>
+        </div>
+        <img src="Image_20260816_151313_402.jpeg" alt="The Sacred Totem" loading="lazy">
+      </div>
+    </div>
+
+  </div>
+  <p style="color:#777;font-size:12px;margin-top:15px">Tip: use ← and → to navigate, and Space to pause/resume.</p>
+</section>
+
+<section class="about" id="story">
+  <div class="reveal"><div class="kicker">The story</div><h2>From<br>nature<br>to canvas.</h2></div>
+  <div class="reveal">
+    <p>This gallery presents art as a way of observing the world and translating experiences into visual language. The works bring together natural imagery, cultural memory, spirituality and personal interpretation.</p>
+    <p>The exhibition is designed as a digital space rather than simply a collection of images. The original slideshow and music experience remain available alongside the new gallery system.</p>
+    <div class="quote">“Every artwork is a different way of seeing.”</div>
+    <div class="story-grid">
+      <article class="story-card"><span class="eyebrow">01 · Observe</span><h3>Look closely.</h3><p>Nature becomes a starting point for noticing light, texture, place, memory and emotion.</p></article>
+      <article class="story-card"><span class="eyebrow">02 · Interpret</span><h3>Find meaning.</h3><p>Each work translates an experience into a visual idea rather than simply reproducing what is seen.</p></article>
+      <article class="story-card"><span class="eyebrow">03 · Express</span><h3>Make it yours.</h3><p>The exhibition connects the physical artwork with a digital space designed for exploration.</p></article>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><span>© 2026 Larry's Art Gallery</span><span>Digital exhibition · Personal creative work</span></footer>
+
+<div class="music" id="musicPanel">
+  <div class="music-top"><span class="music-title">♪ EXHIBITION SOUNDTRACK</span><span class="music-status" id="musicStatus">Ready</span></div>
+  <audio id="bgMusic" preload="auto" autoplay playsinline></audio>
+  <div class="music-progress"><span id="musicProgress"></span></div>
+  <div class="music-controls">
+    <button id="prevBtn">⏮ Previous</button>
+    <button id="playPauseBtn">▶ Play</button>
+    <button id="nextBtn">Next ⏭</button>
+  </div>
+  <label class="music-volume">Volume <input id="volumeRange" type="range" min="0" max="1" step=".01" value=".55"></label>
+</div>
+<button class="back-top" id="backTop" aria-label="Back to top">↑</button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="modal" id="modal">
+  <button class="close" id="closeModal" aria-label="Close">×</button>
+  <div class="modal-box">
+    <img id="modalImg" src="" alt="">
+    <div class="modal-info"><div class="kicker">Artwork</div><h2 id="modalTitle"></h2><p id="modalDesc"></p>
+      <div class="modal-nav"><button id="modalPrev">← Previous</button><button id="modalNext">Next →</button></div>
+      <p style="font-size:11px;color:#777;margin-top:18px">Tip: press Esc to close · use ← / → to browse</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const $=(s,p=document)=>p.querySelector(s);
+const $$=(s,p=document)=>[...p.querySelectorAll(s)];
+const header=$('#header'), progress=$('#progress'), body=document.body;
+
+/* Header, progress, theme, mobile menu */
+addEventListener('scroll',()=>{
+  header.classList.toggle('scrolled',scrollY>20);
+  const max=document.documentElement.scrollHeight-innerHeight;
+  progress.style.width=(max>0?(scrollY/max)*100:0)+'%';
+  $('#backTop').classList.toggle('show',scrollY>700);
+},{passive:true});
+
+const savedTheme=localStorage.getItem('larry-art-theme');
+if(savedTheme==='light') body.classList.add('light');
+$('#themeBtn').textContent=body.classList.contains('light')?'☾':'☼';
+$('#themeBtn').addEventListener('click',()=>{
+  body.classList.toggle('light');
+  localStorage.setItem('larry-art-theme',body.classList.contains('light')?'light':'dark');
+  $('#themeBtn').textContent=body.classList.contains('light')?'☾':'☼';
+});
+$('#menuBtn').addEventListener('click',()=>{
+  const nav=$('#mobileNav'), open=nav.classList.toggle('open');
+  $('#menuBtn').setAttribute('aria-expanded',open);
+});
+$$('#mobileNav a').forEach(a=>a.addEventListener('click',()=>$('#mobileNav').classList.remove('open')));
+$('#backTop').addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+
+/* Cursor glow on desktop */
+const glow=$('#cursorGlow');
+if(matchMedia('(pointer:fine)').matches){
+  addEventListener('pointermove',e=>{
+    glow.style.left=e.clientX+'px'; glow.style.top=e.clientY+'px';
+  },{passive:true});
+}else glow.remove();
+
+/* Reveal */
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{
+  if(e.isIntersecting)e.target.classList.add('show');
+}),{threshold:.1});
+$$('.reveal').forEach(el=>observer.observe(el));
+
+/* Gallery filtering + search */
+const cards=$$('.art-card'), filters=$$('.filter'), search=$('#artSearch'), count=$('#collectionCount');
+function updateGallery(){
+  const f=$('.filter.active').dataset.filter;
+  const q=search.value.trim().toLowerCase();
+  let shown=0;
+  cards.forEach(card=>{
+    const categoryOK=f==='all'||card.dataset.category===f;
+    const title=$('h3',card).textContent.toLowerCase();
+    const text=$('p',card).textContent.toLowerCase();
+    const searchOK=!q||title.includes(q)||text.includes(q);
+    const show=categoryOK&&searchOK;
+    card.hidden=!show;
+    if(show)shown++;
+  });
+  count.textContent=`${shown} work${shown===1?'':'s'} shown`;
+}
+filters.forEach(btn=>btn.addEventListener('click',()=>{
+  filters.forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); updateGallery();
+}));
+search.addEventListener('input',updateGallery);
+
+/* Artwork modal */
+const modal=$('#modal'), modalImg=$('#modalImg'), modalTitle=$('#modalTitle'), modalDesc=$('#modalDesc');
+let modalIndex=0;
+function openArtwork(title,desc,img){
+  modalTitle.textContent=title; modalDesc.textContent=desc; modalImg.src=img; modalImg.alt=title;
+  modal.classList.add('open'); body.classList.add('locked');
+  modalIndex=cards.findIndex(c=>$('h3',c).textContent===title);
+}
+function closeModal(){modal.classList.remove('open');body.classList.remove('locked')}
+function browseModal(dir){
+  let i=(modalIndex+dir+cards.length)%cards.length;
+  const card=cards[i], btn=$('.view-btn',card);
+  modalIndex=i; openArtwork(btn.dataset.title,btn.dataset.desc,btn.dataset.img);
+}
+$$('.view-btn,.view-from-slide').forEach(btn=>btn.addEventListener('click',()=>{
+  openArtwork(btn.dataset.title,btn.dataset.desc,btn.dataset.img);
+}));
+$('#closeModal').addEventListener('click',closeModal);
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
+$('#modalPrev').addEventListener('click',()=>browseModal(-1));
+$('#modalNext').addEventListener('click',()=>browseModal(1));
+
+/* Music */
+const playlist=[
+  "amapiano.mp3",
+  "Casapiano [7JDBiyDhZI8].mp3",
+  "Asake x Mavo Amapiano Type Beat _ Afrobeat Instrumental 2026 _AURA SALAD_ [0PyPdLnchLQ].mp3"
+];
+const music=$('#bgMusic'), playBtn=$('#playPauseBtn'), status=$('#musicStatus'), musicProgress=$('#musicProgress');
+let currentSong=0;
+music.volume=.55;
+function loadSong(index,auto=false){
+  currentSong=(index+playlist.length)%playlist.length;
+  music.src=playlist[currentSong]; music.load();
+  status.textContent=`Track ${currentSong+1} / ${playlist.length}`;
+  if(auto) playMusic();
+}
+function playMusic(){
+  music.play().then(()=>playBtn.textContent='❚❚ Pause').catch(()=>{
+    playBtn.textContent='▶ Play'; status.textContent='Click Play to start';
+  });
+}
+playBtn.addEventListener('click',()=>music.paused?playMusic():(music.pause(),playBtn.textContent='▶ Play'));
+$('#nextBtn').addEventListener('click',()=>loadSong(currentSong+1,true));
+$('#prevBtn').addEventListener('click',()=>loadSong(currentSong-1,true));
+music.addEventListener('ended',()=>loadSong(currentSong+1,true));
+music.addEventListener('timeupdate',()=>{
+  musicProgress.style.width=(music.duration?music.currentTime/music.duration*100:0)+'%';
+});
+$('#volumeRange').addEventListener('input',e=>music.volume=Number(e.target.value));
+loadSong(0,false);
+addEventListener('load',()=>playMusic());
+document.addEventListener('pointerdown',()=>{
+  if(music.paused && music.currentTime===0) playMusic();
+},{once:true});
+
+/* Hero slideshow — exact 8 seconds */
+const heroSlides=$$('.hero-bg-slide'), heroDots=$('#heroDots'), heroCounter=$('#heroCounter');
+let heroIndex=0,heroPaused=false,heroTimer;
+heroSlides.forEach((_,i)=>{
+  const dot=document.createElement('button');
+  dot.className='hero-dot'+(i===0?' active':'');
+  dot.setAttribute('aria-label',`Go to featured slide ${i+1}`);
+  dot.addEventListener('click',()=>{showHeroSlide(i);scheduleHero()});
+  heroDots.appendChild(dot);
+});
+function showHeroSlide(i){
+  heroIndex=(i+heroSlides.length)%heroSlides.length;
+  heroSlides.forEach((s,n)=>s.classList.toggle('active',n===heroIndex));
+  $$('.hero-dot').forEach((d,n)=>d.classList.toggle('active',n===heroIndex));
+  heroCounter.textContent=`ARTWORK ${String(heroIndex+1).padStart(2,'0')} / ${heroSlides.length}`;
+}
+function scheduleHero(){
+  clearTimeout(heroTimer);
+  if(!heroPaused)heroTimer=setTimeout(()=>{showHeroSlide(heroIndex+1);scheduleHero()},8000);
+}
+$('#heroPrev').addEventListener('click',()=>{showHeroSlide(heroIndex-1);scheduleHero()});
+$('#heroNext').addEventListener('click',()=>{showHeroSlide(heroIndex+1);scheduleHero()});
+$('#heroPause').addEventListener('click',()=>{
+  heroPaused=!heroPaused; $('#heroPause').textContent=heroPaused?'Resume Slides':'Pause Slides'; scheduleHero();
+});
+showHeroSlide(0); scheduleHero();
+
+/* Classic slideshow — exact 8 seconds */
+const slides=$$('.slide'), prev=$('#slidePrev'), next=$('#slideNext'), pause=$('#slidePause');
+let slideIndex=0,slidePaused=false,timer;
+function showSlide(i){
+  slideIndex=(i+slides.length)%slides.length;
+  slides.forEach((s,n)=>s.classList.toggle('active',n===slideIndex));
+}
+function schedule(){
+  clearTimeout(timer);
+  if(!slidePaused)timer=setTimeout(()=>{showSlide(slideIndex+1);schedule()},8000);
+}
+next.addEventListener('click',()=>{showSlide(slideIndex+1);schedule()});
+prev.addEventListener('click',()=>{showSlide(slideIndex-1);schedule()});
+pause.addEventListener('click',()=>{
+  slidePaused=!slidePaused; pause.textContent=slidePaused?'Resume slides':'Pause slides'; schedule();
+});
+
+/* Keyboard controls */
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeModal();
+  if(modal.classList.contains('open')){
+    if(e.key==='ArrowRight')browseModal(1);
+    if(e.key==='ArrowLeft')browseModal(-1);
+    return;
+  }
+  if(e.key==='ArrowRight'){showSlide(slideIndex+1);schedule()}
+  if(e.key==='ArrowLeft'){showSlide(slideIndex-1);schedule()}
+  if(e.code==='Space'){e.preventDefault();pause.click()}
+});
+showSlide(0); schedule();
+</script>
+</body>
+</html>
