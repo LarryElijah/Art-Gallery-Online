@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Larry's Art Gallery — a premium digital exhibition of original artwork inspired by nature, culture, faith and creative expression.">
-<meta name="theme-color" content="#07090d">
-<meta name="color-scheme" content="dark light">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="Larry's Art Gallery — a premium digital exhibition of original artwork inspired by nature, culture, faith and creative expression." name="description"/>
+<meta content="#07090d" name="theme-color"/>
+<meta content="dark light" name="color-scheme"/>
 <title>Larry's Art Gallery | Complete Digital Exhibition</title>
 <style>
 :root{
@@ -276,446 +277,482 @@ footer{flex-wrap:wrap;gap:15px}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
+
+/* NEW: Collections tab — River view. The original Collection section is intentionally preserved. */
+.collections-river-section{background:var(--bg);padding-top:110px}
+.river-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:35px}
+.river-head h2{margin:0;font-family:Georgia,serif;font-size:clamp(42px,6vw,76px);font-weight:400;letter-spacing:-2px}
+.river-head p{max-width:520px;color:var(--muted);line-height:1.75;margin:0}
+.river-view{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:130px;grid-auto-flow:dense;gap:10px}
+.river-art{position:relative;overflow:hidden;border:1px solid var(--line);background:#0b0d11;cursor:pointer;min-height:0}
+.river-art img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.river-art::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72),transparent 55%);opacity:0;transition:.35s}
+.river-art:hover img{transform:scale(1.045);filter:saturate(1.08)}
+.river-art:hover::after{opacity:1}
+.river-label{position:absolute;z-index:2;left:16px;right:16px;bottom:13px;color:#fff;font-size:13px;letter-spacing:.2px;opacity:0;transform:translateY(8px);transition:.35s}
+.river-art:hover .river-label{opacity:1;transform:none}
+/* River-style rhythm: different tile sizes create the flowing arrangement shown in the reference. */
+.river-art:nth-child(1){grid-column:span 4;grid-row:span 3}
+.river-art:nth-child(2){grid-column:span 3;grid-row:span 2}
+.river-art:nth-child(3){grid-column:span 3;grid-row:span 2}
+.river-art:nth-child(4){grid-column:span 2;grid-row:span 2}
+.river-art:nth-child(5){grid-column:span 3;grid-row:span 3}
+.river-art:nth-child(6){grid-column:span 3;grid-row:span 2}
+.river-art:nth-child(7){grid-column:span 3;grid-row:span 2}
+.river-art:nth-child(8){grid-column:span 3;grid-row:span 3}
+.river-art:nth-child(9){grid-column:span 3;grid-row:span 2}
+.river-art:nth-child(10){grid-column:span 3;grid-row:span 2}
+.river-art:nth-child(11){grid-column:span 4;grid-row:span 2}
+.river-art:nth-child(12){grid-column:span 3;grid-row:span 3}
+.river-art:nth-child(13){grid-column:span 3;grid-row:span 2}
+.river-art:nth-child(14){grid-column:span 3;grid-row:span 2}
+
+/* NEW: My Journey tab */
+.journey-section{background:var(--panel);border-top:1px solid var(--line)}
+.journey-grid{display:grid;grid-template-columns:minmax(280px,.8fr) minmax(0,1.2fr);gap:70px;align-items:center}
+.journey-photo{position:relative;border:1px solid var(--line);padding:10px;background:#0b0d11;box-shadow:0 25px 80px rgba(0,0,0,.25)}
+.journey-photo img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center top}
+.journey-photo::before{content:'MY JOURNEY';position:absolute;top:24px;left:24px;z-index:2;background:rgba(10,12,16,.82);border:1px solid var(--line);padding:8px 11px;font-size:10px;letter-spacing:2px;color:var(--gold)}
+.journey-copy .kicker{margin-bottom:10px}
+.journey-copy h2{font-family:Georgia,serif;font-weight:400;font-size:clamp(44px,6vw,78px);line-height:.95;margin:0 0 25px;letter-spacing:-2px}
+.journey-copy p{color:var(--muted);line-height:1.9;max-width:720px}
+.journey-highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:30px}
+.journey-highlight{border:1px solid var(--line);padding:20px;background:rgba(255,255,255,.02)}
+.journey-highlight strong{display:block;color:var(--text);margin-bottom:7px}
+.journey-highlight span{color:var(--muted);font-size:12px;line-height:1.6}
+
+@media(max-width:950px){
+  .river-view{grid-template-columns:repeat(6,1fr);grid-auto-rows:110px}
+  .river-art:nth-child(n){grid-column:span 2;grid-row:span 2}
+  .river-art:nth-child(1),.river-art:nth-child(5),.river-art:nth-child(8),.river-art:nth-child(12){grid-column:span 3;grid-row:span 3}
+  .journey-grid{grid-template-columns:1fr;gap:40px}
+  .journey-photo{max-width:520px}
+}
+@media(max-width:600px){
+  .river-head{display:block}
+  .river-head p{margin-top:15px}
+  .river-view{grid-template-columns:repeat(2,1fr);grid-auto-rows:180px;gap:8px}
+  .river-art:nth-child(n){grid-column:span 1;grid-row:span 1}
+  .river-art:nth-child(1),.river-art:nth-child(5),.river-art:nth-child(8),.river-art:nth-child(12){grid-column:span 2;grid-row:span 2}
+  .journey-highlights{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 <div class="progress" id="progress"></div>
-
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="cursor-glow" id="cursorGlow"></div>
 <header id="header">
-  <a class="logo" href="#home" aria-label="Larry Art home">
-    <img src="IMG_20260629_140541.jpg" alt="Larry's Art Gallery Logo" class="logo-img">
-    <span class="logo-text">Larry's Art Gallery</span>
-  </a>
-  <nav aria-label="Main navigation"><a href="#home">Home</a><a href="#collection">Collection</a><a href="#classic">Slideshow</a><a href="#story">Story</a></nav>
-  <div class="header-tools">
-    <button class="icon-btn" id="themeBtn" aria-label="Toggle light and dark theme" title="Toggle theme">☼</button>
-    <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="mobileNav">Menu</button>
-  </div>
+<a aria-label="Larry Art home" class="logo" href="#home">
+<img alt="Larry's Art Gallery Logo" class="logo-img" src="IMG_20260629_140541.jpg"/>
+<span class="logo-text">Larry's Art Gallery</span>
+</a>
+<nav aria-label="Main navigation"><a href="#home">Home</a><a href="#collection">Collection</a><a href="#collections">Collections</a><a href="#classic">Slideshow</a><a href="#story">Story</a><a href="#journey">My Journey</a></nav>
+<div class="header-tools">
+<button aria-label="Toggle light and dark theme" class="icon-btn" id="themeBtn" title="Toggle theme">☼</button>
+<button aria-controls="mobileNav" aria-expanded="false" class="menu" id="menuBtn">Menu</button>
+</div>
 </header>
-<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
-  <a href="#home">Home</a><a href="#collection">Collection</a><a href="#classic">Slideshow</a><a href="#story">Story</a>
+<nav aria-label="Mobile navigation" class="mobile-nav" id="mobileNav">
+<a href="#home">Home</a><a href="#collection">Collection</a><a href="#collections">Collections</a><a href="#classic">Slideshow</a><a href="#story">Story</a><a href="#journey">My Journey</a>
 </nav>
-
 <main id="main">
-
 <section class="hero" id="home">
-  <div class="hero-bg-slideshow" id="heroBgSlideshow">
-    <div class="hero-bg-slide"><img src="photo.png" alt="Featured artwork"></div>
-    <div class="hero-bg-slide"><img src="Image_20260816_151313_663.jpeg" alt=""></div>
-    <div class="hero-bg-slide"><img src="IMG_20260806_000543_924.jpg" alt=""></div>
-    <div class="hero-bg-slide"><img src="20260425_142502.jpeg" alt=""></div>
-    <div class="hero-bg-slide"><img src="IMG_0081.jpeg" alt=""></div>
-    <div class="hero-bg-slide"><img src="Image_20260816_151313_525.jpeg" alt=""></div>
-    <div class="hero-bg-slide"><img src="IMG_0080.jpeg" alt=""></div>
-    <div class="hero-bg-slide"><img src="IMG_20260806_082205_792.jpg" alt=""></div>
-    <div class="hero-bg-slide"><img src="Image_20260816_151313_359.jpeg" alt=""></div>
-    <div class="hero-bg-slide"><img src="Image_20260816_151312_847.jpeg" alt=""></div>
-    <div class="hero-bg-slide"><img src="Image_20260816_151313_482.jpeg" alt=""></div>
-    <div class="hero-bg-slide"><img src="Image_20260816_151313_402.jpeg" alt=""></div>
-  </div>
-  <button class="hero-slide-control left" id="heroPrev" aria-label="Previous featured slide">❮</button>
-  <button class="hero-slide-control right" id="heroNext" aria-label="Next featured slide">❯</button>
-  <button class="hero-slide-pause" id="heroPause" aria-label="Pause or resume featured slideshow">Pause Slides</button>
-  <div class="hero-dots" id="heroDots"></div>
-  <div class="hero-counter" id="heroCounter">ARTWORK 01 / 12</div>
-
-  <div class="reveal">
-    <div class="kicker">Complete Digital Exhibition · 2026</div>
-    <h1>Art that<br>speaks <em>nature.</em></h1>
-    <p class="hero-copy">Welcome to Larry's Art Gallery — a digital exhibition where <strong>nature, culture, spirituality and personal expression</strong> meet on canvas.</p>
-    <div class="hero-stats" aria-label="Exhibition statistics">
-      <div class="stat"><strong>14</strong><span>Original works</span></div>
-      <div class="stat"><strong>8s</strong><span>Slide interval</span></div>
-      <div class="stat"><strong>2026</strong><span>Exhibition year</span></div>
-    </div>
-    <div class="hero-actions">
-      <a class="btn primary" href="#collection">Explore collection →</a>
-      <a class="btn secondary" href="#classic">Open slideshow</a>
-    </div>
-  </div>
-  <div class="hero-art reveal">
-    <div class="hero-frame"><img src="photo.png" alt="Featured artwork"></div>
-    <div class="hero-tag"><strong>FEATURED</strong><br><span style="color:#aaa">A visual journey through expression</span></div>
-  </div>
+<div class="hero-bg-slideshow" id="heroBgSlideshow">
+<div class="hero-bg-slide"><img alt="Featured artwork" src="photo.png"/></div>
+<div class="hero-bg-slide"><img alt="" src="Image_20260816_151313_663.jpeg"/></div>
+<div class="hero-bg-slide"><img alt="" src="IMG_20260806_000543_924.jpg"/></div>
+<div class="hero-bg-slide"><img alt="" src="20260425_142502.jpeg"/></div>
+<div class="hero-bg-slide"><img alt="" src="IMG_0081.jpeg"/></div>
+<div class="hero-bg-slide"><img alt="" src="Image_20260816_151313_525.jpeg"/></div>
+<div class="hero-bg-slide"><img alt="" src="IMG_0080.jpeg"/></div>
+<div class="hero-bg-slide"><img alt="" src="IMG_20260806_082205_792.jpg"/></div>
+<div class="hero-bg-slide"><img alt="" src="Image_20260816_151313_359.jpeg"/></div>
+<div class="hero-bg-slide"><img alt="" src="Image_20260816_151312_847.jpeg"/></div>
+<div class="hero-bg-slide"><img alt="" src="Image_20260816_151313_482.jpeg"/></div>
+<div class="hero-bg-slide"><img alt="" src="Image_20260816_151313_402.jpeg"/></div>
+</div>
+<button aria-label="Previous featured slide" class="hero-slide-control left" id="heroPrev">❮</button>
+<button aria-label="Next featured slide" class="hero-slide-control right" id="heroNext">❯</button>
+<button aria-label="Pause or resume featured slideshow" class="hero-slide-pause" id="heroPause">Pause Slides</button>
+<div class="hero-dots" id="heroDots"></div>
+<div class="hero-counter" id="heroCounter">ARTWORK 01 / 12</div>
+<div class="reveal">
+<div class="kicker">Complete Digital Exhibition · 2026</div>
+<h1>Art that<br/>speaks <em>nature.</em></h1>
+<p class="hero-copy">Welcome to Larry's Art Gallery — a digital exhibition where <strong>nature, culture, spirituality and personal expression</strong> meet on canvas.</p>
+<div aria-label="Exhibition statistics" class="hero-stats">
+<div class="stat"><strong>14</strong><span>Original works</span></div>
+<div class="stat"><strong>8s</strong><span>Slide interval</span></div>
+<div class="stat"><strong>2026</strong><span>Exhibition year</span></div>
+</div>
+<div class="hero-actions">
+<a class="btn primary" href="#collection">Explore collection →</a>
+<a class="btn secondary" href="#classic">Open slideshow</a>
+</div>
+</div>
+<div class="hero-art reveal">
+<div class="hero-frame"><img alt="Featured artwork" src="photo.png"/></div>
+<div class="hero-tag"><strong>FEATURED</strong><br/><span style="color:#aaa">A visual journey through expression</span></div>
+</div>
 </section>
-
 <section id="collection">
-  <div class="section-head reveal">
-    <div><div class="kicker">The collection</div><h2>Selected works</h2></div>
-    <p>Browse every original artwork, filter the collection, and open each piece in a full artwork viewer.</p>
-  </div>
-  <div class="filters reveal">
-    <button class="filter active" data-filter="all">All works</button>
-    <button class="filter" data-filter="nature">Nature &amp; depth</button>
-    <button class="filter" data-filter="expression">Expression</button>
-  </div>
-  <div class="collection-tools reveal">
-    <label class="search-box" aria-label="Search artworks">
-      <span>⌕</span><input id="artSearch" type="search" placeholder="Search artwork titles..." autocomplete="off">
-    </label>
-    <span class="collection-count" id="collectionCount">14 works shown</span>
-  </div>
-  <div class="gallery" id="gallery">
+<div class="section-head reveal">
+<div><div class="kicker">The collection</div><h2>Selected works</h2></div>
+<p>Browse every original artwork, filter the collection, and open each piece in a full artwork viewer.</p>
+</div>
+<div class="filters reveal">
+<button class="filter active" data-filter="all">All works</button>
+<button class="filter" data-filter="nature">Nature &amp; depth</button>
+<button class="filter" data-filter="expression">Expression</button>
+</div>
+<div class="collection-tools reveal">
+<label aria-label="Search artworks" class="search-box">
+<span>⌕</span><input autocomplete="off" id="artSearch" placeholder="Search artwork titles..." type="search"/>
+</label>
+<span class="collection-count" id="collectionCount">14 works shown</span>
+</div>
+<div class="gallery" id="gallery">
 <article class="art-card" data-category="expression">
-        <div class="art-image-wrap">
-          <img src="Image_20260816_151313_663.jpeg" alt="Moonlit Serenity" loading="lazy">
-          <span class="art-number">01</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>Moonlit Serenity</h3>
-          <p>A tranquil night scene where moonlight falls across a quiet riverside. The silhouetted trees, calm water and soft shoreline create a peaceful atmosphere, capturing the stillness that comes when nature and the human spirit exist in harmony.</p>
-          <button class="view-btn" type="button" data-title="Moonlit Serenity" data-desc="A tranquil night scene where moonlight falls across a quiet riverside. The silhouetted trees, calm water and soft shoreline create a peaceful atmosphere, capturing the stillness that comes when nature and the human spirit exist in harmony." data-img="Image_20260816_151313_663.jpeg">View artwork →</button>
-        </div>
-      </article>
+<div class="art-image-wrap">
+<img alt="Moonlit Serenity" loading="lazy" src="Image_20260816_151313_663.jpeg"/>
+<span class="art-number">01</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>Moonlit Serenity</h3>
+<p>A tranquil night scene where moonlight falls across a quiet riverside. The silhouetted trees, calm water and soft shoreline create a peaceful atmosphere, capturing the stillness that comes when nature and the human spirit exist in harmony.</p>
+<button class="view-btn" data-desc="A tranquil night scene where moonlight falls across a quiet riverside. The silhouetted trees, calm water and soft shoreline create a peaceful atmosphere, capturing the stillness that comes when nature and the human spirit exist in harmony." data-img="Image_20260816_151313_663.jpeg" data-title="Moonlit Serenity" type="button">View artwork →</button>
+</div>
+</article>
 <article class="art-card" data-category="expression">
-        <div class="art-image-wrap">
-          <img src="Image_20260816_151313_402.jpeg" alt="The Sacred Totem" loading="lazy">
-          <span class="art-number">02</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>The Sacred Totem</h3>
-          <p>A striking, totem-like expression filled with symbolic motifs, vibrant patterns, and layered text. The artwork explores themes of lineage, spiritual strength, and cultural identity.</p>
-          <button class="view-btn" type="button" data-title="The Sacred Totem" data-desc="A striking, totem-like expression filled with symbolic motifs, vibrant patterns, and layered text. The artwork explores themes of lineage, spiritual strength, and cultural identity." data-img="Image_20260816_151313_402.jpeg">View artwork →</button>
-        </div>
-      </article>
+<div class="art-image-wrap">
+<img alt="The Sacred Totem" loading="lazy" src="Image_20260816_151313_402.jpeg"/>
+<span class="art-number">02</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>The Sacred Totem</h3>
+<p>A striking, totem-like expression filled with symbolic motifs, vibrant patterns, and layered text. The artwork explores themes of lineage, spiritual strength, and cultural identity.</p>
+<button class="view-btn" data-desc="A striking, totem-like expression filled with symbolic motifs, vibrant patterns, and layered text. The artwork explores themes of lineage, spiritual strength, and cultural identity." data-img="Image_20260816_151313_402.jpeg" data-title="The Sacred Totem" type="button">View artwork →</button>
+</div>
+</article>
 <article class="art-card" data-category="expression">
-        <div class="art-image-wrap">
-          <img src="Image_20260816_151313_525.jpeg" alt="Baba Oluwa" loading="lazy">
-          <span class="art-number">03</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>Baba Oluwa</h3>
-          <p>A majestic celebration of divine guardianship, weaving interwoven imagery to reflect humanity's reliance on supreme grace and providence.</p>
-          <button class="view-btn" type="button" data-title="Baba Oluwa" data-desc="A majestic celebration of divine guardianship, weaving interwoven imagery to reflect humanity's reliance on supreme grace and providence." data-img="Image_20260816_151313_525.jpeg">View artwork →</button>
-        </div>
-      </article>
+<div class="art-image-wrap">
+<img alt="Baba Oluwa" loading="lazy" src="Image_20260816_151313_525.jpeg"/>
+<span class="art-number">03</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>Baba Oluwa</h3>
+<p>A majestic celebration of divine guardianship, weaving interwoven imagery to reflect humanity's reliance on supreme grace and providence.</p>
+<button class="view-btn" data-desc="A majestic celebration of divine guardianship, weaving interwoven imagery to reflect humanity's reliance on supreme grace and providence." data-img="Image_20260816_151313_525.jpeg" data-title="Baba Oluwa" type="button">View artwork →</button>
+</div>
+</article>
 <article class="art-card" data-category="nature">
-        <div class="art-image-wrap">
-          <img src="celestial.jpeg" alt="Celestial Mountain Peak" loading="lazy" style="width: 355px; height: 430px">
-          <span class="art-number">04</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>Celestial Mountain Peak</h3>
-          <p>A vivid landscape depicting vibrant, fiery hues streaming above snow-draped mountain peaks[cite: 1]. Dense evergreen forests frame a reflective river flowing into the foreground, capturing the dramatic energy and quiet majesty of the wilderness[cite: 1].</p>
-          <button class="view-btn" type="button" data-title="Celestial Mountain Peak" data-desc="A vivid landscape depicting vibrant, fiery hues streaming above snow-draped mountain peaks. Dense evergreen forests frame a reflective river flowing into the foreground, capturing the dramatic energy and quiet majesty of the wilderness." data-img="celestial.jpeg">View artwork →</button>
-        </div>
-      </article>
+<div class="art-image-wrap">
+<img alt="Celestial Mountain Peak" loading="lazy" src="celestial.jpeg" style="width: 355px; height: 430px"/>
+<span class="art-number">04</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>Celestial Mountain Peak</h3>
+<p>A vivid landscape depicting vibrant, fiery hues streaming above snow-draped mountain peaks[cite: 1]. Dense evergreen forests frame a reflective river flowing into the foreground, capturing the dramatic energy and quiet majesty of the wilderness[cite: 1].</p>
+<button class="view-btn" data-desc="A vivid landscape depicting vibrant, fiery hues streaming above snow-draped mountain peaks. Dense evergreen forests frame a reflective river flowing into the foreground, capturing the dramatic energy and quiet majesty of the wilderness." data-img="celestial.jpeg" data-title="Celestial Mountain Peak" type="button">View artwork →</button>
+</div>
+</article>
 <article class="art-card" data-category="nature">
-        <div class="art-image-wrap">
-          <img src="IMG_0081.jpeg" alt="In The Deep" loading="lazy">
-          <span class="art-number">05</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>In The Deep</h3>
-          <p>A poetic dive into the unseen depths of nature and mind, unearthing hidden treasures and mysteries lurking beneath the surface.</p>
-          <button class="view-btn" type="button" data-title="In The Deep" data-desc="A poetic dive into the unseen depths of nature and mind, unearthing hidden treasures and mysteries lurking beneath the surface." data-img="IMG_0081.jpeg">View artwork →</button>
-        </div>
-      </article>
+<div class="art-image-wrap">
+<img alt="In The Deep" loading="lazy" src="IMG_0081.jpeg"/>
+<span class="art-number">05</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>In The Deep</h3>
+<p>A poetic dive into the unseen depths of nature and mind, unearthing hidden treasures and mysteries lurking beneath the surface.</p>
+<button class="view-btn" data-desc="A poetic dive into the unseen depths of nature and mind, unearthing hidden treasures and mysteries lurking beneath the surface." data-img="IMG_0081.jpeg" data-title="In The Deep" type="button">View artwork →</button>
+</div>
+</article>
 <article class="art-card" data-category="nature">
-        <div class="art-image-wrap">
-          <img src="IMG_20260806_000543_924.jpg" alt="The African Breeze" loading="lazy">
-          <span class="art-number">06</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>The African Breeze: The Over SaaBi</h3>
-          <p>Invigorating tones evoke the refreshing, soul-soothing winds across continental landscapes, offering a comforting respite from daily anxieties.</p>
-          <button class="view-btn" type="button" data-title="The African Breeze: The Over SaaBi" data-desc="Invigorating tones evoke the refreshing, soul-soothing winds across continental landscapes, offering a comforting respite from daily anxieties." data-img="IMG_20260806_000543_924.jpg">View artwork →</button>
-        </div>
-      </article>
+<div class="art-image-wrap">
+<img alt="The African Breeze" loading="lazy" src="IMG_20260806_000543_924.jpg"/>
+<span class="art-number">06</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>The African Breeze: The Over SaaBi</h3>
+<p>Invigorating tones evoke the refreshing, soul-soothing winds across continental landscapes, offering a comforting respite from daily anxieties.</p>
+<button class="view-btn" data-desc="Invigorating tones evoke the refreshing, soul-soothing winds across continental landscapes, offering a comforting respite from daily anxieties." data-img="IMG_20260806_000543_924.jpg" data-title="The African Breeze: The Over SaaBi" type="button">View artwork →</button>
+</div>
+</article>
 <article class="art-card" data-category="expression">
-        <div class="art-image-wrap">
-          <img src="Image_20260816_151313_482.jpeg" alt="Hope" loading="lazy">
-          <span class="art-number">07</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>Hope</h3>
-          <p>A luminous portrayal of optimism, reminding us that steady light always breaks through dark horizons to inspire creative rebirth.</p>
-          <button class="view-btn" type="button" data-title="Hope" data-desc="A luminous portrayal of optimism, reminding us that steady light always breaks through dark horizons to inspire creative rebirth." data-img="Image_20260816_151313_482.jpeg">View artwork →</button>
-        </div>
-      </article>
+<div class="art-image-wrap">
+<img alt="Hope" loading="lazy" src="Image_20260816_151313_482.jpeg"/>
+<span class="art-number">07</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>Hope</h3>
+<p>A luminous portrayal of optimism, reminding us that steady light always breaks through dark horizons to inspire creative rebirth.</p>
+<button class="view-btn" data-desc="A luminous portrayal of optimism, reminding us that steady light always breaks through dark horizons to inspire creative rebirth." data-img="Image_20260816_151313_482.jpeg" data-title="Hope" type="button">View artwork →</button>
+</div>
+</article>
 <article class="art-card" data-category="nature">
-        <div class="art-image-wrap">
-          <img src="IMG_20260806_082205_792.jpg" alt="Where Nature Meets Beauty" loading="lazy">
-          <span class="art-number">08</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>Where Nature Meets Beauty</h3>
-          <p>A rich composition capturing organic splendor, illustrating the seamless union between raw earthly elements and refined aesthetics.</p>
-          <button class="view-btn" type="button" data-title="Where Nature Meets Beauty" data-desc="A rich composition capturing organic splendor, illustrating the seamless union between raw earthly elements and refined aesthetics." data-img="IMG_20260806_082205_792.jpg">View artwork →</button>
-        </div>
-      </article>
+<div class="art-image-wrap">
+<img alt="Where Nature Meets Beauty" loading="lazy" src="IMG_20260806_082205_792.jpg"/>
+<span class="art-number">08</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>Where Nature Meets Beauty</h3>
+<p>A rich composition capturing organic splendor, illustrating the seamless union between raw earthly elements and refined aesthetics.</p>
+<button class="view-btn" data-desc="A rich composition capturing organic splendor, illustrating the seamless union between raw earthly elements and refined aesthetics." data-img="IMG_20260806_082205_792.jpg" data-title="Where Nature Meets Beauty" type="button">View artwork →</button>
+</div>
+</article>
 <article class="art-card" data-category="nature">
-        <div class="art-image-wrap">
-          <img src="Image_20260816_151312_847.jpeg" alt="The Red Valley" loading="lazy">
-          <span class="art-number">09</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>The Red Valley: Ancestral Homes</h3>
-          <p>An evocative retrospective honoring traditional heritage, displaying timeless cultural roots and peaceful community living.</p>
-          <button class="view-btn" type="button" data-title="The Red Valley: Ancestral Homes" data-desc="An evocative retrospective honoring traditional heritage, displaying timeless cultural roots and peaceful community living." data-img="Image_20260816_151312_847.jpeg">View artwork →</button>
-        </div>
-      </article>
+<div class="art-image-wrap">
+<img alt="The Red Valley" loading="lazy" src="Image_20260816_151312_847.jpeg"/>
+<span class="art-number">09</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>The Red Valley: Ancestral Homes</h3>
+<p>An evocative retrospective honoring traditional heritage, displaying timeless cultural roots and peaceful community living.</p>
+<button class="view-btn" data-desc="An evocative retrospective honoring traditional heritage, displaying timeless cultural roots and peaceful community living." data-img="Image_20260816_151312_847.jpeg" data-title="The Red Valley: Ancestral Homes" type="button">View artwork →</button>
+</div>
+</article>
 <article class="art-card" data-category="nature">
-        <div class="art-image-wrap">
-          <img src="IMG_0084.jpeg" alt="Growth in Expression" loading="lazy">
-          <span class="art-number">10</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>Growth in Expression</h3>
-          <p>An exploration of how caring for plants can inspire creative expression. The artwork reflects the connection between cultivation, patience and artistic growth, showing how observing nature can become a source of ideas, colour and personal expression.</p>
-          <button class="view-btn" type="button" data-title="Growth in Expression" data-desc="An exploration of how caring for plants can inspire creative expression. The artwork reflects the connection between cultivation, patience and artistic growth, showing how observing nature can become a source of ideas, colour and personal expression." data-img="IMG_0084.jpeg">View artwork →</button>
-        </div>
-      </article>
+<div class="art-image-wrap">
+<img alt="Growth in Expression" loading="lazy" src="IMG_0084.jpeg"/>
+<span class="art-number">10</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>Growth in Expression</h3>
+<p>An exploration of how caring for plants can inspire creative expression. The artwork reflects the connection between cultivation, patience and artistic growth, showing how observing nature can become a source of ideas, colour and personal expression.</p>
+<button class="view-btn" data-desc="An exploration of how caring for plants can inspire creative expression. The artwork reflects the connection between cultivation, patience and artistic growth, showing how observing nature can become a source of ideas, colour and personal expression." data-img="IMG_0084.jpeg" data-title="Growth in Expression" type="button">View artwork →</button>
+</div>
+</article>
 <article class="art-card" data-category="nature">
-        <div class="art-image-wrap">
-          <img src="20260425_142502.jpeg" alt="The Deep Rooted" loading="lazy">
-          <span class="art-number">11</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>The Deep Rooted</h3>
-          <p>An ode to ancestral foundations and inner fortitude, illustrating how unshakeable roots nurture vibrant new growth through all seasons.</p>
-          <button class="view-btn" type="button" data-title="The Deep Rooted" data-desc="An ode to ancestral foundations and inner fortitude, illustrating how unshakeable roots nurture vibrant new growth through all seasons." data-img="20260425_142502.jpeg">View artwork →</button>
-        </div>
-      </article>
+<div class="art-image-wrap">
+<img alt="The Deep Rooted" loading="lazy" src="20260425_142502.jpeg"/>
+<span class="art-number">11</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>The Deep Rooted</h3>
+<p>An ode to ancestral foundations and inner fortitude, illustrating how unshakeable roots nurture vibrant new growth through all seasons.</p>
+<button class="view-btn" data-desc="An ode to ancestral foundations and inner fortitude, illustrating how unshakeable roots nurture vibrant new growth through all seasons." data-img="20260425_142502.jpeg" data-title="The Deep Rooted" type="button">View artwork →</button>
+</div>
+</article>
 <article class="art-card" data-category="nature">
-        <div class="art-image-wrap">
-          <img src="Image_20260816_151313_319.jpeg" alt="Nature in Expression" loading="lazy">
-          <span class="art-number">12</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>Nature in Expression</h3>
-          <p>A vibrant composition inspired by nature, combining flowing organic forms, potted plants and bold contrasting colours. The artwork explores the connection between natural growth and creative expression.</p>
-          <button class="view-btn" type="button" data-title="Nature in Expression" data-desc="A vibrant composition inspired by nature, combining flowing organic forms, potted plants and bold contrasting colours. The artwork explores the connection between natural growth and creative expression." data-img="Image_20260816_151313_319.jpeg">View artwork →</button>
-        </div>
-      </article>
+<div class="art-image-wrap">
+<img alt="Nature in Expression" loading="lazy" src="Image_20260816_151313_319.jpeg"/>
+<span class="art-number">12</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>Nature in Expression</h3>
+<p>A vibrant composition inspired by nature, combining flowing organic forms, potted plants and bold contrasting colours. The artwork explores the connection between natural growth and creative expression.</p>
+<button class="view-btn" data-desc="A vibrant composition inspired by nature, combining flowing organic forms, potted plants and bold contrasting colours. The artwork explores the connection between natural growth and creative expression." data-img="Image_20260816_151313_319.jpeg" data-title="Nature in Expression" type="button">View artwork →</button>
+</div>
+</article>
 <article class="art-card" data-category="expression">
-        <div class="art-image-wrap">
-          <img src="IMG_0080.jpeg" alt="Red Horn" loading="lazy">
-          <span class="art-number">13</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>Red Horn: The World Up There</h3>
-          <p>A striking commentary on societal hierarchies versus natural harmony, depicting elevated perspectives free from envy and modern divide.</p>
-          <button class="view-btn" type="button" data-title="Red Horn: The World Up There" data-desc="A striking commentary on societal hierarchies versus natural harmony, depicting elevated perspectives free from envy and modern divide." data-img="IMG_0080.jpeg">View artwork →</button>
-        </div>
-      </article>
+<div class="art-image-wrap">
+<img alt="Red Horn" loading="lazy" src="IMG_0080.jpeg"/>
+<span class="art-number">13</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>Red Horn: The World Up There</h3>
+<p>A striking commentary on societal hierarchies versus natural harmony, depicting elevated perspectives free from envy and modern divide.</p>
+<button class="view-btn" data-desc="A striking commentary on societal hierarchies versus natural harmony, depicting elevated perspectives free from envy and modern divide." data-img="IMG_0080.jpeg" data-title="Red Horn: The World Up There" type="button">View artwork →</button>
+</div>
+</article>
 <article class="art-card" data-category="expression">
-        <div class="art-image-wrap">
-          <img src="Image_20260816_151313_359.jpeg" alt="On God" loading="lazy">
-          <span class="art-number">14</span>
-        </div>
-        <div class="art-info">
-          <span class="eyebrow">Original Artwork</span>
-          <h3>ON God</h3>
-          <p>A profound expression of faith and ecological reverence, honoring the delicate balance between natural sanctuaries and divine creation.</p>
-          <button class="view-btn" type="button" data-title="ON God" data-desc="A profound expression of faith and ecological reverence, honoring the delicate balance between natural sanctuaries and divine creation." data-img="Image_20260816_151313_359.jpeg">View artwork →</button>
-        </div>
-      </article>
-      </div>
-
+<div class="art-image-wrap">
+<img alt="On God" loading="lazy" src="Image_20260816_151313_359.jpeg"/>
+<span class="art-number">14</span>
+</div>
+<div class="art-info">
+<span class="eyebrow">Original Artwork</span>
+<h3>ON God</h3>
+<p>A profound expression of faith and ecological reverence, honoring the delicate balance between natural sanctuaries and divine creation.</p>
+<button class="view-btn" data-desc="A profound expression of faith and ecological reverence, honoring the delicate balance between natural sanctuaries and divine creation." data-img="Image_20260816_151313_359.jpeg" data-title="ON God" type="button">View artwork →</button>
+</div>
+</article>
+</div>
 <section class="classic" id="classic">
-  <div class="section-head reveal">
-    <div><div class="kicker">Original experience preserved</div><h2>Classic slideshow</h2></div>
-    <p>The original full-screen slideshow concept is kept here, upgraded with smoother transitions and an exact 8-second interval.</p>
-  </div>
-  <div class="classic-stage" id="classicStage">
-    <button class="slide-arrow left" id="slidePrev" aria-label="Previous slide">❮</button>
-    <button class="slide-arrow right" id="slideNext" aria-label="Next slide">❯</button>
-    <button class="slide-pause" id="slidePause">Pause slides</button>
-
-    <div class="slide active">
-      <div class="slide-inner">
-        <div>
-          <div class="slide-count">SLIDE 01 / 11</div>
-          <h3>Moonlit Serenity</h3>
-          <p>A tranquil night scene where moonlight falls across a quiet riverside. The silhouetted trees, calm water and soft shoreline create a peaceful atmosphere, capturing the stillness that comes when nature and the human spirit exist in harmony.</p>
-          <button class="btn primary view-from-slide" data-title="Moonlit Serenity" data-desc="A tranquil night scene where moonlight falls across a quiet riverside. The silhouetted trees, calm water and soft shoreline create a peaceful atmosphere, capturing the stillness that comes when nature and the human spirit exist in harmony." data-img="Image_20260816_151313_663.jpeg">View artwork</button>
-        </div>
-        <img src="Image_20260816_151313_663.jpeg" alt="Moonlit Serenity" loading="lazy">
-      </div>
-    </div>
-
-    <div class="slide ">
-      <div class="slide-inner">
-        <div>
-          <div class="slide-count">SLIDE 02 / 11</div>
-          <h3>The African Breeze: The Over SaaBi</h3>
-          <p>Invigorating tones evoke the refreshing, soul-soothing winds across continental landscapes, offering a comforting respite from daily anxieties.</p>
-          <button class="btn primary view-from-slide" data-title="The African Breeze: The Over SaaBi" data-desc="Invigorating tones evoke the refreshing, soul-soothing winds across continental landscapes, offering a comforting respite from daily anxieties." data-img="IMG_20260806_000543_924.jpg">View artwork</button>
-        </div>
-        <img src="IMG_20260806_000543_924.jpg" alt="The African Breeze" loading="lazy">
-      </div>
-    </div>
-
-    <div class="slide ">
-      <div class="slide-inner">
-        <div>
-          <div class="slide-count">SLIDE 03 / 11</div>
-          <h3>The Deep Rooted</h3>
-          <p>An ode to ancestral foundations and inner fortitude, illustrating how unshakeable roots nurture vibrant new growth through all seasons.</p>
-          <button class="btn primary view-from-slide" data-title="The Deep Rooted" data-desc="An ode to ancestral foundations and inner fortitude, illustrating how unshakeable roots nurture vibrant new growth through all seasons." data-img="20260425_142502.jpeg">View artwork</button>
-        </div>
-        <img src="20260425_142502.jpeg" alt="The Deep Rooted" loading="lazy">
-      </div>
-    </div>
-
-    <div class="slide ">
-      <div class="slide-inner">
-        <div>
-          <div class="slide-count">SLIDE 04 / 11</div>
-          <h3>In The Deep</h3>
-          <p>A poetic dive into the unseen depths of nature and mind, unearthing hidden treasures and mysteries lurking beneath the surface.</p>
-          <button class="btn primary view-from-slide" data-title="In The Deep" data-desc="A poetic dive into the unseen depths of nature and mind, unearthing hidden treasures and mysteries lurking beneath the surface." data-img="IMG_0081.jpeg">View artwork</button>
-        </div>
-        <img src="IMG_0081.jpeg" alt="In The Deep" loading="lazy">
-      </div>
-    </div>
-
-    <div class="slide ">
-      <div class="slide-inner">
-        <div>
-          <div class="slide-count">SLIDE 05 / 11</div>
-          <h3>Baba Oluwa</h3>
-          <p>A majestic celebration of divine guardianship, weaving interwoven imagery to reflect humanity's reliance on supreme grace and providence.</p>
-          <button class="btn primary view-from-slide" data-title="Baba Oluwa" data-desc="A majestic celebration of divine guardianship, weaving interwoven imagery to reflect humanity's reliance on supreme grace and providence." data-img="Image_20260816_151313_525.jpeg">View artwork</button>
-        </div>
-        <img src="Image_20260816_151313_525.jpeg" alt="Baba Oluwa" loading="lazy">
-      </div>
-    </div>
-
-    <div class="slide ">
-      <div class="slide-inner">
-        <div>
-          <div class="slide-count">SLIDE 06 / 11</div>
-          <h3>Red Horn: The World Up There</h3>
-          <p>A striking commentary on societal hierarchies versus natural harmony, depicting elevated perspectives free from envy and modern divide.</p>
-          <button class="btn primary view-from-slide" data-title="Red Horn: The World Up There" data-desc="A striking commentary on societal hierarchies versus natural harmony, depicting elevated perspectives free from envy and modern divide." data-img="IMG_0080.jpeg">View artwork</button>
-        </div>
-        <img src="IMG_0080.jpeg" alt="Red Horn" loading="lazy">
-      </div>
-    </div>
-
-    <div class="slide ">
-      <div class="slide-inner">
-        <div>
-          <div class="slide-count">SLIDE 07 / 11</div>
-          <h3>Where Nature Meets Beauty</h3>
-          <p>A rich composition capturing organic splendor, illustrating the seamless union between raw earthly elements and refined aesthetics.</p>
-          <button class="btn primary view-from-slide" data-title="Where Nature Meets Beauty" data-desc="A rich composition capturing organic splendor, illustrating the seamless union between raw earthly elements and refined aesthetics." data-img="IMG_20260806_082205_792.jpg">View artwork</button>
-        </div>
-        <img src="IMG_20260806_082205_792.jpg" alt="Where Nature Meets Beauty" loading="lazy">
-      </div>
-    </div>
-
-    <div class="slide ">
-      <div class="slide-inner">
-        <div>
-          <div class="slide-count">SLIDE 08 / 11</div>
-          <h3>ON God</h3>
-          <p>A profound expression of faith and ecological reverence, honoring the delicate balance between natural sanctuaries and divine creation.</p>
-          <button class="btn primary view-from-slide" data-title="ON God" data-desc="A profound expression of faith and ecological reverence, honoring the delicate balance between natural sanctuaries and divine creation." data-img="Image_20260816_151313_359.jpeg">View artwork</button>
-        </div>
-        <img src="Image_20260816_151313_359.jpeg" alt="On God" loading="lazy">
-      </div>
-    </div>
-
-    <div class="slide ">
-      <div class="slide-inner">
-        <div>
-          <div class="slide-count">SLIDE 09 / 11</div>
-          <h3>The Red Valley: Ancestral Homes</h3>
-          <p>An evocative retrospective honoring traditional heritage, displaying timeless cultural roots and peaceful community living.</p>
-          <button class="btn primary view-from-slide" data-title="The Red Valley: Ancestral Homes" data-desc="An evocative retrospective honoring traditional heritage, displaying timeless cultural roots and peaceful community living." data-img="Image_20260816_151312_847.jpeg">View artwork</button>
-        </div>
-        <img src="Image_20260816_151312_847.jpeg" alt="The Red Valley" loading="lazy">
-      </div>
-    </div>
-
-    <div class="slide ">
-      <div class="slide-inner">
-        <div>
-          <div class="slide-count">SLIDE 10 / 11</div>
-          <h3>Hope</h3>
-          <p>A luminous portrayal of optimism, reminding us that steady light always breaks through dark horizons to inspire creative rebirth.</p>
-          <button class="btn primary view-from-slide" data-title="Hope" data-desc="A luminous portrayal of optimism, reminding us that steady light always breaks through dark horizons to inspire creative rebirth." data-img="Image_20260816_151313_482.jpeg">View artwork</button>
-        </div>
-        <img src="Image_20260816_151313_482.jpeg" alt="Hope" loading="lazy">
-      </div>
-    </div>
-
-    <div class="slide ">
-      <div class="slide-inner">
-        <div>
-          <div class="slide-count">SLIDE 11 / 11</div>
-          <h3>The Sacred Totem</h3>
-          <p>A striking, totem-like expression filled with symbolic motifs, vibrant patterns, and layered text. The artwork explores themes of lineage, spiritual strength, and cultural identity.</p>
-          <button class="btn primary view-from-slide" data-title="The Sacred Totem" data-desc="A striking, totem-like expression filled with symbolic motifs, vibrant patterns, and layered text. The artwork explores themes of lineage, spiritual strength, and cultural identity." data-img="Image_20260816_151313_402.jpeg">View artwork</button>
-        </div>
-        <img src="Image_20260816_151313_402.jpeg" alt="The Sacred Totem" loading="lazy">
-      </div>
-    </div>
-
-  </div>
-  <p style="color:#777;font-size:12px;margin-top:15px">Tip: use ← and → to navigate, and Space to pause/resume.</p>
+<div class="section-head reveal">
+<div><div class="kicker">Original experience preserved</div><h2>Classic slideshow</h2></div>
+<p>The original full-screen slideshow concept is kept here, upgraded with smoother transitions and an exact 8-second interval.</p>
+</div>
+<div class="classic-stage" id="classicStage">
+<button aria-label="Previous slide" class="slide-arrow left" id="slidePrev">❮</button>
+<button aria-label="Next slide" class="slide-arrow right" id="slideNext">❯</button>
+<button class="slide-pause" id="slidePause">Pause slides</button>
+<div class="slide active">
+<div class="slide-inner">
+<div>
+<div class="slide-count">SLIDE 01 / 11</div>
+<h3>Moonlit Serenity</h3>
+<p>A tranquil night scene where moonlight falls across a quiet riverside. The silhouetted trees, calm water and soft shoreline create a peaceful atmosphere, capturing the stillness that comes when nature and the human spirit exist in harmony.</p>
+<button class="btn primary view-from-slide" data-desc="A tranquil night scene where moonlight falls across a quiet riverside. The silhouetted trees, calm water and soft shoreline create a peaceful atmosphere, capturing the stillness that comes when nature and the human spirit exist in harmony." data-img="Image_20260816_151313_663.jpeg" data-title="Moonlit Serenity">View artwork</button>
+</div>
+<img alt="Moonlit Serenity" loading="lazy" src="Image_20260816_151313_663.jpeg"/>
+</div>
+</div>
+<div class="slide">
+<div class="slide-inner">
+<div>
+<div class="slide-count">SLIDE 02 / 11</div>
+<h3>The African Breeze: The Over SaaBi</h3>
+<p>Invigorating tones evoke the refreshing, soul-soothing winds across continental landscapes, offering a comforting respite from daily anxieties.</p>
+<button class="btn primary view-from-slide" data-desc="Invigorating tones evoke the refreshing, soul-soothing winds across continental landscapes, offering a comforting respite from daily anxieties." data-img="IMG_20260806_000543_924.jpg" data-title="The African Breeze: The Over SaaBi">View artwork</button>
+</div>
+<img alt="The African Breeze" loading="lazy" src="IMG_20260806_000543_924.jpg"/>
+</div>
+</div>
+<div class="slide">
+<div class="slide-inner">
+<div>
+<div class="slide-count">SLIDE 03 / 11</div>
+<h3>The Deep Rooted</h3>
+<p>An ode to ancestral foundations and inner fortitude, illustrating how unshakeable roots nurture vibrant new growth through all seasons.</p>
+<button class="btn primary view-from-slide" data-desc="An ode to ancestral foundations and inner fortitude, illustrating how unshakeable roots nurture vibrant new growth through all seasons." data-img="20260425_142502.jpeg" data-title="The Deep Rooted">View artwork</button>
+</div>
+<img alt="The Deep Rooted" loading="lazy" src="20260425_142502.jpeg"/>
+</div>
+</div>
+<div class="slide">
+<div class="slide-inner">
+<div>
+<div class="slide-count">SLIDE 04 / 11</div>
+<h3>In The Deep</h3>
+<p>A poetic dive into the unseen depths of nature and mind, unearthing hidden treasures and mysteries lurking beneath the surface.</p>
+<button class="btn primary view-from-slide" data-desc="A poetic dive into the unseen depths of nature and mind, unearthing hidden treasures and mysteries lurking beneath the surface." data-img="IMG_0081.jpeg" data-title="In The Deep">View artwork</button>
+</div>
+<img alt="In The Deep" loading="lazy" src="IMG_0081.jpeg"/>
+</div>
+</div>
+<div class="slide">
+<div class="slide-inner">
+<div>
+<div class="slide-count">SLIDE 05 / 11</div>
+<h3>Baba Oluwa</h3>
+<p>A majestic celebration of divine guardianship, weaving interwoven imagery to reflect humanity's reliance on supreme grace and providence.</p>
+<button class="btn primary view-from-slide" data-desc="A majestic celebration of divine guardianship, weaving interwoven imagery to reflect humanity's reliance on supreme grace and providence." data-img="Image_20260816_151313_525.jpeg" data-title="Baba Oluwa">View artwork</button>
+</div>
+<img alt="Baba Oluwa" loading="lazy" src="Image_20260816_151313_525.jpeg"/>
+</div>
+</div>
+<div class="slide">
+<div class="slide-inner">
+<div>
+<div class="slide-count">SLIDE 06 / 11</div>
+<h3>Red Horn: The World Up There</h3>
+<p>A striking commentary on societal hierarchies versus natural harmony, depicting elevated perspectives free from envy and modern divide.</p>
+<button class="btn primary view-from-slide" data-desc="A striking commentary on societal hierarchies versus natural harmony, depicting elevated perspectives free from envy and modern divide." data-img="IMG_0080.jpeg" data-title="Red Horn: The World Up There">View artwork</button>
+</div>
+<img alt="Red Horn" loading="lazy" src="IMG_0080.jpeg"/>
+</div>
+</div>
+<div class="slide">
+<div class="slide-inner">
+<div>
+<div class="slide-count">SLIDE 07 / 11</div>
+<h3>Where Nature Meets Beauty</h3>
+<p>A rich composition capturing organic splendor, illustrating the seamless union between raw earthly elements and refined aesthetics.</p>
+<button class="btn primary view-from-slide" data-desc="A rich composition capturing organic splendor, illustrating the seamless union between raw earthly elements and refined aesthetics." data-img="IMG_20260806_082205_792.jpg" data-title="Where Nature Meets Beauty">View artwork</button>
+</div>
+<img alt="Where Nature Meets Beauty" loading="lazy" src="IMG_20260806_082205_792.jpg"/>
+</div>
+</div>
+<div class="slide">
+<div class="slide-inner">
+<div>
+<div class="slide-count">SLIDE 08 / 11</div>
+<h3>ON God</h3>
+<p>A profound expression of faith and ecological reverence, honoring the delicate balance between natural sanctuaries and divine creation.</p>
+<button class="btn primary view-from-slide" data-desc="A profound expression of faith and ecological reverence, honoring the delicate balance between natural sanctuaries and divine creation." data-img="Image_20260816_151313_359.jpeg" data-title="ON God">View artwork</button>
+</div>
+<img alt="On God" loading="lazy" src="Image_20260816_151313_359.jpeg"/>
+</div>
+</div>
+<div class="slide">
+<div class="slide-inner">
+<div>
+<div class="slide-count">SLIDE 09 / 11</div>
+<h3>The Red Valley: Ancestral Homes</h3>
+<p>An evocative retrospective honoring traditional heritage, displaying timeless cultural roots and peaceful community living.</p>
+<button class="btn primary view-from-slide" data-desc="An evocative retrospective honoring traditional heritage, displaying timeless cultural roots and peaceful community living." data-img="Image_20260816_151312_847.jpeg" data-title="The Red Valley: Ancestral Homes">View artwork</button>
+</div>
+<img alt="The Red Valley" loading="lazy" src="Image_20260816_151312_847.jpeg"/>
+</div>
+</div>
+<div class="slide">
+<div class="slide-inner">
+<div>
+<div class="slide-count">SLIDE 10 / 11</div>
+<h3>Hope</h3>
+<p>A luminous portrayal of optimism, reminding us that steady light always breaks through dark horizons to inspire creative rebirth.</p>
+<button class="btn primary view-from-slide" data-desc="A luminous portrayal of optimism, reminding us that steady light always breaks through dark horizons to inspire creative rebirth." data-img="Image_20260816_151313_482.jpeg" data-title="Hope">View artwork</button>
+</div>
+<img alt="Hope" loading="lazy" src="Image_20260816_151313_482.jpeg"/>
+</div>
+</div>
+<div class="slide">
+<div class="slide-inner">
+<div>
+<div class="slide-count">SLIDE 11 / 11</div>
+<h3>The Sacred Totem</h3>
+<p>A striking, totem-like expression filled with symbolic motifs, vibrant patterns, and layered text. The artwork explores themes of lineage, spiritual strength, and cultural identity.</p>
+<button class="btn primary view-from-slide" data-desc="A striking, totem-like expression filled with symbolic motifs, vibrant patterns, and layered text. The artwork explores themes of lineage, spiritual strength, and cultural identity." data-img="Image_20260816_151313_402.jpeg" data-title="The Sacred Totem">View artwork</button>
+</div>
+<img alt="The Sacred Totem" loading="lazy" src="Image_20260816_151313_402.jpeg"/>
+</div>
+</div>
+</div>
+<p style="color:#777;font-size:12px;margin-top:15px">Tip: use ← and → to navigate, and Space to pause/resume.</p>
 </section>
-
-<section class="about" id="story">
-  <div class="reveal"><div class="kicker">The story</div><h2>From<br>nature<br>to canvas.</h2></div>
-  <div class="reveal">
-    <p>This gallery presents art as a way of observing the world and translating experiences into visual language. The works bring together natural imagery, cultural memory, spirituality and personal interpretation.</p>
-    <p>The exhibition is designed as a digital space rather than simply a collection of images. The original slideshow and music experience remain available alongside the new gallery system.</p>
-    <div class="quote">“Every artwork is a different way of seeing.”</div>
-    <div class="story-grid">
-      <article class="story-card"><span class="eyebrow">01 · Observe</span><h3>Look closely.</h3><p>Nature becomes a starting point for noticing light, texture, place, memory and emotion.</p></article>
-      <article class="story-card"><span class="eyebrow">02 · Interpret</span><h3>Find meaning.</h3><p>Each work translates an experience into a visual idea rather than simply reproducing what is seen.</p></article>
-      <article class="story-card"><span class="eyebrow">03 · Express</span><h3>Make it yours.</h3><p>The exhibition connects the physical artwork with a digital space designed for exploration.</p></article>
-    </div>
-  </div>
+<section class="journey-section" id="journey"><div class="journey-grid"><div class="journey-photo reveal"><img alt="Larry — artist and creator of Larry's Art Gallery" loading="lazy" src="photo.png"/></div><div class="journey-copy reveal"><div class="kicker">My Journey</div><h2>From nature <em>to canvas.</em></h2><p>I’m Larry, the creator behind this digital art gallery. My journey through art is about learning to observe the world more carefully and turning what I see, feel and experience into visual expression. Nature, culture, spirituality and personal ideas all influence the way I approach my work.</p><p>This gallery brings that journey into a digital space. Each artwork represents a different moment of exploration, while the exhibition itself documents how physical artworks can be presented, organised and experienced online.</p><div class="journey-highlights"><div class="journey-highlight"><strong>01 · Observe</strong><span>Look closely at nature, people, colour, texture and place.</span></div><div class="journey-highlight"><strong>02 · Create</strong><span>Turn observations and ideas into personal visual expression.</span></div><div class="journey-highlight"><strong>03 · Share</strong><span>Use the gallery to let others explore the work and the story behind it.</span></div></div></div></div></section><section class="about" id="story">
+<div class="reveal"><div class="kicker">The story</div><h2>From<br/>nature<br/>to canvas.</h2></div>
+<div class="reveal">
+<p>This gallery presents art as a way of observing the world and translating experiences into visual language. The works bring together natural imagery, cultural memory, spirituality and personal interpretation.</p>
+<p>The exhibition is designed as a digital space rather than simply a collection of images. The original slideshow and music experience remain available alongside the new gallery system.</p>
+<div class="quote">“Every artwork is a different way of seeing.”</div>
+<div class="story-grid">
+<article class="story-card"><span class="eyebrow">01 · Observe</span><h3>Look closely.</h3><p>Nature becomes a starting point for noticing light, texture, place, memory and emotion.</p></article>
+<article class="story-card"><span class="eyebrow">02 · Interpret</span><h3>Find meaning.</h3><p>Each work translates an experience into a visual idea rather than simply reproducing what is seen.</p></article>
+<article class="story-card"><span class="eyebrow">03 · Express</span><h3>Make it yours.</h3><p>The exhibition connects the physical artwork with a digital space designed for exploration.</p></article>
+</div>
+</div>
 </section>
-</main>
-
+</section><section class="collections-river-section" id="collections"><div class="river-head reveal"><div><div class="kicker">The collections view</div><h2>River of Art</h2></div><p>A visual stream of every original artwork. Select any piece to open the same View Artwork experience used in the main gallery.</p></div><div class="river-view reveal" id="riverView"><button aria-label="View Moonlit Serenity" class="river-art" data-desc="A tranquil night scene where moonlight falls across a quiet riverside. The silhouetted trees, calm water and soft shoreline create a peaceful atmosphere, capturing the stillness that comes when nature and the human spirit exist in harmony." data-img="Image_20260816_151313_663.jpeg" data-title="Moonlit Serenity" type="button"><img alt="Moonlit Serenity" loading="lazy" src="Image_20260816_151313_663.jpeg"/><span class="river-label">Moonlit Serenity</span></button><button aria-label="View The Sacred Totem" class="river-art" data-desc="A striking, totem-like expression filled with symbolic motifs, vibrant patterns, and layered text. The artwork explores themes of lineage, spiritual strength, and cultural identity." data-img="Image_20260816_151313_402.jpeg" data-title="The Sacred Totem" type="button"><img alt="The Sacred Totem" loading="lazy" src="Image_20260816_151313_402.jpeg"/><span class="river-label">The Sacred Totem</span></button><button aria-label="View Baba Oluwa" class="river-art" data-desc="A majestic celebration of divine guardianship, weaving interwoven imagery to reflect humanity's reliance on supreme grace and providence." data-img="Image_20260816_151313_525.jpeg" data-title="Baba Oluwa" type="button"><img alt="Baba Oluwa" loading="lazy" src="Image_20260816_151313_525.jpeg"/><span class="river-label">Baba Oluwa</span></button><button aria-label="View Celestial Mountain Peak" class="river-art" data-desc="A vivid landscape depicting vibrant, fiery hues streaming above snow-draped mountain peaks. Dense evergreen forests frame a reflective river flowing into the foreground, capturing the dramatic energy and quiet majesty of the wilderness." data-img="celestial.jpeg" data-title="Celestial Mountain Peak" type="button"><img alt="Celestial Mountain Peak" loading="lazy" src="celestial.jpeg"/><span class="river-label">Celestial Mountain Peak</span></button><button aria-label="View In The Deep" class="river-art" data-desc="A poetic dive into the unseen depths of nature and mind, unearthing hidden treasures and mysteries lurking beneath the surface." data-img="IMG_0081.jpeg" data-title="In The Deep" type="button"><img alt="In The Deep" loading="lazy" src="IMG_0081.jpeg"/><span class="river-label">In The Deep</span></button><button aria-label="View The African Breeze: The Over SaaBi" class="river-art" data-desc="Invigorating tones evoke the refreshing, soul-soothing winds across continental landscapes, offering a comforting respite from daily anxieties." data-img="IMG_20260806_000543_924.jpg" data-title="The African Breeze: The Over SaaBi" type="button"><img alt="The African Breeze" loading="lazy" src="IMG_20260806_000543_924.jpg"/><span class="river-label">The African Breeze: The Over SaaBi</span></button><button aria-label="View Hope" class="river-art" data-desc="A luminous portrayal of optimism, reminding us that steady light always breaks through dark horizons to inspire creative rebirth." data-img="Image_20260816_151313_482.jpeg" data-title="Hope" type="button"><img alt="Hope" loading="lazy" src="Image_20260816_151313_482.jpeg"/><span class="river-label">Hope</span></button><button aria-label="View Where Nature Meets Beauty" class="river-art" data-desc="A rich composition capturing organic splendor, illustrating the seamless union between raw earthly elements and refined aesthetics." data-img="IMG_20260806_082205_792.jpg" data-title="Where Nature Meets Beauty" type="button"><img alt="Where Nature Meets Beauty" loading="lazy" src="IMG_20260806_082205_792.jpg"/><span class="river-label">Where Nature Meets Beauty</span></button><button aria-label="View The Red Valley: Ancestral Homes" class="river-art" data-desc="An evocative retrospective honoring traditional heritage, displaying timeless cultural roots and peaceful community living." data-img="Image_20260816_151312_847.jpeg" data-title="The Red Valley: Ancestral Homes" type="button"><img alt="The Red Valley" loading="lazy" src="Image_20260816_151312_847.jpeg"/><span class="river-label">The Red Valley: Ancestral Homes</span></button><button aria-label="View Growth in Expression" class="river-art" data-desc="An exploration of how caring for plants can inspire creative expression. The artwork reflects the connection between cultivation, patience and artistic growth, showing how observing nature can become a source of ideas, colour and personal expression." data-img="IMG_0084.jpeg" data-title="Growth in Expression" type="button"><img alt="Growth in Expression" loading="lazy" src="IMG_0084.jpeg"/><span class="river-label">Growth in Expression</span></button><button aria-label="View The Deep Rooted" class="river-art" data-desc="An ode to ancestral foundations and inner fortitude, illustrating how unshakeable roots nurture vibrant new growth through all seasons." data-img="20260425_142502.jpeg" data-title="The Deep Rooted" type="button"><img alt="The Deep Rooted" loading="lazy" src="20260425_142502.jpeg"/><span class="river-label">The Deep Rooted</span></button><button aria-label="View Nature in Expression" class="river-art" data-desc="A vibrant composition inspired by nature, combining flowing organic forms, potted plants and bold contrasting colours. The artwork explores the connection between natural growth and creative expression." data-img="Image_20260816_151313_319.jpeg" data-title="Nature in Expression" type="button"><img alt="Nature in Expression" loading="lazy" src="Image_20260816_151313_319.jpeg"/><span class="river-label">Nature in Expression</span></button><button aria-label="View Red Horn: The World Up There" class="river-art" data-desc="A striking commentary on societal hierarchies versus natural harmony, depicting elevated perspectives free from envy and modern divide." data-img="IMG_0080.jpeg" data-title="Red Horn: The World Up There" type="button"><img alt="Red Horn" loading="lazy" src="IMG_0080.jpeg"/><span class="river-label">Red Horn: The World Up There</span></button><button aria-label="View ON God" class="river-art" data-desc="A profound expression of faith and ecological reverence, honoring the delicate balance between natural sanctuaries and divine creation." data-img="Image_20260816_151313_359.jpeg" data-title="ON God" type="button"><img alt="On God" loading="lazy" src="Image_20260816_151313_359.jpeg"/><span class="river-label">ON God</span></button></div></section></main>
 <footer><span>© 2026 Larry's Art Gallery</span><span>Digital exhibition · Personal creative work</span></footer>
-
 <div class="music" id="musicPanel">
-  <div class="music-top"><span class="music-title">♪ EXHIBITION SOUNDTRACK</span><span class="music-status" id="musicStatus">Ready</span></div>
-  <audio id="bgMusic" preload="auto" autoplay playsinline></audio>
-  <div class="music-progress"><span id="musicProgress"></span></div>
-  <div class="music-controls">
-    <button id="prevBtn">⏮ Previous</button>
-    <button id="playPauseBtn">▶ Play</button>
-    <button id="nextBtn">Next ⏭</button>
-  </div>
-  <label class="music-volume">Volume <input id="volumeRange" type="range" min="0" max="1" step=".01" value=".55"></label>
+<div class="music-top"><span class="music-title">♪ EXHIBITION SOUNDTRACK</span><span class="music-status" id="musicStatus">Ready</span></div>
+<audio autoplay="" id="bgMusic" playsinline="" preload="auto"></audio>
+<div class="music-progress"><span id="musicProgress"></span></div>
+<div class="music-controls">
+<button id="prevBtn">⏮ Previous</button>
+<button id="playPauseBtn">▶ Play</button>
+<button id="nextBtn">Next ⏭</button>
 </div>
-<button class="back-top" id="backTop" aria-label="Back to top">↑</button>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
+<label class="music-volume">Volume <input id="volumeRange" max="1" min="0" step=".01" type="range" value=".55"/></label>
+</div>
+<button aria-label="Back to top" class="back-top" id="backTop">↑</button>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
 <div class="modal" id="modal">
-  <button class="close" id="closeModal" aria-label="Close">×</button>
-  <div class="modal-box">
-    <img id="modalImg" src="" alt="">
-    <div class="modal-info"><div class="kicker">Artwork</div><h2 id="modalTitle"></h2><p id="modalDesc"></p>
-      <div class="modal-nav"><button id="modalPrev">← Previous</button><button id="modalNext">Next →</button></div>
-      <p style="font-size:11px;color:#777;margin-top:18px">Tip: press Esc to close · use ← / → to browse</p>
-    </div>
-  </div>
+<button aria-label="Close" class="close" id="closeModal">×</button>
+<div class="modal-box">
+<img alt="" id="modalImg" src=""/>
+<div class="modal-info"><div class="kicker">Artwork</div><h2 id="modalTitle"></h2><p id="modalDesc"></p>
+<div class="modal-nav"><button id="modalPrev">← Previous</button><button id="modalNext">Next →</button></div>
+<p style="font-size:11px;color:#777;margin-top:18px">Tip: press Esc to close · use ← / → to browse</p>
 </div>
-
+</div>
+</div>
 <script>
 const $=(s,p=document)=>p.querySelector(s);
 const $$=(s,p=document)=>[...p.querySelectorAll(s)];
@@ -894,6 +931,11 @@ document.addEventListener('keydown',e=>{
   if(e.code==='Space'){e.preventDefault();pause.click()}
 });
 showSlide(0); schedule();
+
+// NEW: River collections use the existing artwork viewer; the original Collection remains unchanged.
+$$('.river-art').forEach(btn=>btn.addEventListener('click',()=>{
+  openArtwork(btn.dataset.title,btn.dataset.desc,btn.dataset.img);
+}));
 </script>
 </body>
 </html>
